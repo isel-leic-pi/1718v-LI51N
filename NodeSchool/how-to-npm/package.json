@@ -1,0 +1,24 @@
+{
+  "name": "how-to-npm",
+  "version": "1.0.3",
+  "description": "A sample module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Paulo Pereira",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isel-leic-pi/1718i-LI51N.git"
+  },
+  "keywords": [
+    "demo"
+  ],
+  "bugs": {
+    "url": "https://github.com/isel-leic-pi/1718i-LI51N/issues"
+  },
+  "homepage": "https://github.com/isel-leic-pi/1718i-LI51N#readme"
+}

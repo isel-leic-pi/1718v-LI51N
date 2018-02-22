@@ -1,0 +1,13 @@
+{
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Program",
+                "program": "${file}",
+                //"args": [ "1", "palbp", "palbp@cc.isel.pt", "45", "Paulo", "Pereira" ]
+                "args": [ "8", "2", "4", "9" ]
+            }
+        ]
+    }
