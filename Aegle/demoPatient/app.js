@@ -1,3 +1,8 @@
+
+const channel = {
+    post: (msg) => console.log(msg)
+}
+
 const patientId = process.argv[2]
 const periodInSeconds = Number.parseInt(process.argv[3])
 
@@ -7,5 +12,5 @@ if (!patientId || Number.isNaN(periodInSeconds)) {
 }
 
 setInterval(function() {
-    console.log(`Heartbeat from ${patientId}`)
+    channel.post(`Heartbeat from ${patientId}`)
 }, periodInSeconds * 1000)
