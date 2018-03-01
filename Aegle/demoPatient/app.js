@@ -1,5 +1,7 @@
+const fs = require('fs')
+const patientFactory = require('./patient.js')
 
-patientId = process.argv[2]
+const patientId = process.argv[2]
 const periodInSeconds = Number.parseInt(process.argv[3])
 
 if (!patientId || Number.isNaN(periodInSeconds)) {
@@ -11,7 +13,8 @@ const channel = {
     post: (event) => console.log(event)
 }
 
-const patient = require('./patient.js')(channel, patientId, periodInSeconds)
-patient.start()
 
+const patient = patientFactory(channel, patientId, periodInSeconds)
+
+patient.start()
 setTimeout(() => patient.stop(), 30*1000)
