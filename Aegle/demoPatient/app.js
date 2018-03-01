@@ -1,6 +1,5 @@
-'use strict'
 
-const patientId = process.argv[2]
+patientId = process.argv[2]
 const periodInSeconds = Number.parseInt(process.argv[3])
 
 if (!patientId || Number.isNaN(periodInSeconds)) {
@@ -12,5 +11,7 @@ const channel = {
     post: (event) => console.log(event)
 }
 
-const patient = require('./patient.js')
-patient(channel, patientId, periodInSeconds)
+const patient = require('./patient.js')(channel, patientId, periodInSeconds)
+patient.start()
+
+setTimeout(() => patient.stop(), 30*1000)
