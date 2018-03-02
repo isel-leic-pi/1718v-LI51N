@@ -1,20 +1,28 @@
 const fs = require('fs')
 const patientFactory = require('./patient.js')
 
-const patientId = process.argv[2]
-const periodInSeconds = Number.parseInt(process.argv[3])
+const configFilePath = process.argv[2]
 
-if (!patientId || Number.isNaN(periodInSeconds)) {
-    console.error('Usage: node app <patientId> <periodInMinutes>')
+if (!configFilePath || !fs.existsSync(configFilePath)) {
+    console.error('Usage: node app <configFilePath>')
     return
 }
+
+const configInfo = JSON.parse(fs.readFileSync(configFilePath).toString())
 
 const channel = {
     post: (event) => console.log(event)
 }
 
-
-const patient = patientFactory(channel, patientId, periodInSeconds)
-
-patient.start()
-setTimeout(() => patient.stop(), 30*1000)
+configInfo
+    .map(element => {
+        return {
+            patient: patientFactory(channel, element.id, element.heartbeatPeriod),
+            ttl: element.ttl
+        }
+    })
+    .forEach(patientInfo => {
+        patientInfo.patient.start()
+        if (patientInfo.ttl)
+            setTimeout(() => patientInfo.patient.stop(), patientInfo.ttl * 1000)
+    })

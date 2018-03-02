@@ -1,0 +1,16 @@
+[
+    {
+        "id": "Patient 1",
+        "heartbeatPeriod": 5,
+        "ttl": 30
+    },
+    {
+        "id": "Patient 2",
+        "heartbeatPeriod": 8
+    },
+    {
+        "id": "Patient 3",
+        "heartbeatPeriod": 10,
+        "ttl": 90
+    }
+]
