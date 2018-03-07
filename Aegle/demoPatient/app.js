@@ -25,12 +25,12 @@ main(process.argv[2])
 function startPatients(configInfo) {
 
     const patientFactory = require('./patient.js')
-    const channel = { post: (event) => console.log(event) }
+    const sendHeartbeatToConsole = (event) => console.log(event)
     
     configInfo
         .map(element => {
             return {
-                patient: patientFactory(channel, element.id, element.heartbeatPeriod),
+                patient: patientFactory(sendHeartbeatToConsole, element.id, element.heartbeatPeriod),
                 ttl: element.ttl
             }
         })
@@ -54,13 +54,7 @@ function main(configFilePath) {
         console.error('Usage: node app <configFilePath>')
         return
     }
-
-    fs.readFile(configFilePath, (err, data) => {
-        if(err) {
-            console.error(`Could not read from file ${configFilePath}`)
-            return
-        }
     
-        startPatients(JSON.parse(data.toString()))
-    })
+    const configInfo = require(configFilePath)
+    startPatients(configInfo)
 }
