@@ -20,13 +20,9 @@ app.get('/patients', (req, res) => {
     res.send(JSON.stringify(patients))
 })
 
-app.post('/patients', (req, res) => {
+app.post('/patients/:id/events', (req, res) => {
     console.log(`Servicing ${req.method} ${req.originalUrl}`)
-    if(!req.body || !req.body.patientId) {
-        res.status(400).send()
-        return
-    }
-    const patient = Patient(req.body.patientId)
+    const patient = Patient(req.params.id)
     patients.push(patient)
     res.end()
 })
