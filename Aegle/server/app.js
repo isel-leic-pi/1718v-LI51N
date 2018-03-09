@@ -2,22 +2,34 @@
 const express = require('express')
 const app = express()
 
-const patients = [
-    {
-        id: 'An Application ID',
-        lastHeartbeat: new Date()
-    },
-    {
-        id: 'Another Application ID',
+function Patient(patientId) {
+    return {
+        id: patientId,
         lastHeartbeat: new Date()
     }
+}
+
+const patients = [
 ]
+
+app.use(express.urlencoded())
 
 app.get('/patients', (req, res) => {
     console.log(`Servicing ${req.method} ${req.originalUrl}`)
-    res.set('Content-Type', 'application/json')
+    res.set("Content-Type", "application/json")
     res.send(JSON.stringify(patients))
 })
 
+app.post('/patients', (req, res) => {
+    console.log(`Servicing ${req.method} ${req.originalUrl}`)
+    if(!req.body || !req.body.patientId) {
+        res.status(400).send()
+        return
+    }
+    const patient = Patient(req.body.patientId)
+    patients.push(patient)
+    res.end()
+})
+
 app.listen(8080)
-console.log('Server is listening')
+console.log("Server is listening")
