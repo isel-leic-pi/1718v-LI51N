@@ -1,6 +1,6 @@
 'use strict'
 
- /**
+/**
  * Entry point that starts a set of patients according to the info contained in the given config file.
  * The full path of the configuration file is specified as a command line argument. The configuration 
  * is specified using JSON as literal of @type {PatientConfig[]}
