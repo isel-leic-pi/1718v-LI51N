@@ -1,3 +1,4 @@
+'use strict'
 
  /**
  * Entry point that starts a set of patients according to the info contained in the given config file.
