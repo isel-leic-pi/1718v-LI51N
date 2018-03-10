@@ -1,3 +1,4 @@
+'use strict'
 
 const express = require('express')
 const app = express()
@@ -12,7 +13,7 @@ function Patient(patientId) {
 const patients = [
 ]
 
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/patients', (req, res) => {
     console.log(`Servicing ${req.method} ${req.originalUrl}`)
