@@ -1,32 +1,23 @@
 'use strict'
 
-const express = require('express')
-const app = express()
+/**
+ * Entry point that starts the server at a given port.
+ * 
+ * @module server.app
+ */
 
-function Patient(patientId) {
-    return {
-        id: patientId,
-        lastHeartbeat: new Date()
-    }
+main(process.argv[2])
+
+/**
+ * The application's entry point.
+ * @param {string?} port - Optionaly, the port where the server will accept requests
+ */
+function main(port) {
+
+    const app = require('./src/routes')
+    const repo = require('./src/patients_repo')()
+    const server = app(repo)
+
+    server.listen(Number(port))
+    console.log(`Server is listening on port ${port}`)
 }
-
-const patients = [
-]
-
-app.use(express.urlencoded({ extended: true }))
-
-app.get('/patients', (req, res) => {
-    console.log(`Servicing ${req.method} ${req.originalUrl}`)
-    res.set("Content-Type", "application/json")
-    res.send(JSON.stringify(patients))
-})
-
-app.post('/patients/:id/events', (req, res) => {
-    console.log(`Servicing ${req.method} ${req.originalUrl}`)
-    const patient = Patient(req.params.id)
-    patients.push(patient)
-    res.end()
-})
-
-app.listen(8080)
-console.log("Server is listening")
