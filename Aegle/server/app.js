@@ -14,8 +14,10 @@ main(process.argv[2])
  */
 function main(port) {
 
+    const model = require('./src/datatypes')
+
     const app = require('./src/routes')
-    const repo = require('./src/patients_repo')()
+    const repo = require('./src/patients_repo')
     const server = app(repo)
 
     server.listen(Number(port))

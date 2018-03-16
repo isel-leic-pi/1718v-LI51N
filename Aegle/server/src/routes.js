@@ -16,7 +16,7 @@ const express = require('express')
  * @param {patients_repo.PatientsRepo} - The repository instance to be used
  * @return {express.Application} - The newly created application
  */
-module.exports = function(patientsRepository) {
+module.exports = exports = function(patientsRepository) {
     
     const app = express()
 

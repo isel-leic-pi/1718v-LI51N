@@ -4,7 +4,7 @@ const test = require('tape');
 const request = require('supertest')
  
 const appFactory = require('../src/routes.js')
-const repoFactory = require('../src/patients_repo')
+const repoFactory = require('../src/patients_repo').createRepository
 
 test('routes test: GET /patients', function (assert) {
     
