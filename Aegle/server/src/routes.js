@@ -10,6 +10,7 @@
  * @private
  */
 const express = require('express')
+const model = require('./datatypes')
 
 /**
  * Creates an express application instance and initiates it with the set of supported routes.
@@ -24,13 +25,18 @@ module.exports = exports = function(patientsRepository) {
      
     app.get('/patients', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
-        res.set("Content-Type", "application/json")
-        res.send(JSON.stringify(patientsRepository.getPatientsStatus()))
+        patientsRepository.getPatientsStatus((err, data) => {
+            // TODO: Error handling
+            res.set("Content-Type", "application/json")
+            res.send(JSON.stringify(data))
+        })
     })
 
     app.post('/patients/:id/events', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
-        patientsRepository.registerEvent({ eventType: 'Heartbeat', source: req.params.id})
+        patientsRepository.registerEvent(new model.Event('Heartbeat', req.params.id), (err) => {
+            // TODO: Error handling
+        })
         res.end()
     })
 

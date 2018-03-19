@@ -7,14 +7,17 @@ const model = require('../src/datatypes')
 test('patients_repo test: registerEvent stores the received event', (assert) => {
     
     let event = new model.Event('Heartbeat', 'someApp')
-    const repo = patientsRepo.createRepository()
+    const sut = patientsRepo.createRepository()
 
-    assert.plan(1)
+    assert.plan(3)
 
-    repo.registerEvent(event)
-    assert.ok(repo.getPatientsStatus().find(function(element) {
-        return element.type === event.type && element.source === event.source;
-    }))
+    sut.registerEvent(event, (err) => {
+        assert.error(err, 'Event registered correctly')
+        sut.getPatientsStatus((err, data) => {
+            assert.error(err, 'Patient status obtained')
+            assert.ok(data.find((elem) => elem.type === event.type && elem.source === event.source))
+        })
+    })
 
     assert.end()
 })

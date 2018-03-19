@@ -9,24 +9,40 @@
  module.exports.createRepository = createRepository
 
 /** 
- * Type whose instances represent the patients' repository.
- * @typedef    {Object} PatientsRepo
- * @property   {function(datatypes.Event)} registerEvent - Registers a given event.
- * @property   {function():Array[datatypes.PatientStatus]} getPatientsStatus - Gets all the patients' health status.
- * @api public
- **/
+ * @callback writeCallback
+ * @param   {object} err - The error object, if one occurred.
+ */
 
-/**
+/** 
+ * @callback readCallback
+ * @param   {object} err - The error object, if one occurred.
+ * @param   {object} data - The read data.
+ */
+
+ /**
  * Factory function that produces a new repository instance.
- * @return {PatientsRepo} The newly created repository.
+ * @constructs @type PatientsRepo
+ * @return  {PatientsRepo} The newly created repository.
  * @api public
  */
 function createRepository() {
     const patients = []
     return {
-        registerEvent: (event) => { 
+        /** 
+         * Registers de given event.
+         * @param   {Event} event - The event to be registered.
+         * @param   {writeCallback} cb - Completion callback.
+         * @memberof PatientsRepo# 
+         */
+        registerEvent: (event, cb) => { 
             patients.push(event)
+            cb()
         },
-        getPatientsStatus: () => patients
+        /** 
+         * Gets the list of know patient's status.
+         * @param   {readCallback} cb - Completion callback.
+         * @memberof PatientsRepo#
+         */
+        getPatientsStatus: (cb) => cb(null, patients)
     }
 }
