@@ -20,7 +20,7 @@ module.exports.PatientStatus = PatientStatus
  * @api public
  */
 function Patient(id, heartRate, name) {
-    if(!this) return { id, heartRate, name }
+    if (!(this instanceof PatientStatus)) return { id, heartRate, name }
     this.id = id
     this.heartRate = heartRate
     this.name = name
@@ -36,7 +36,7 @@ function Patient(id, heartRate, name) {
  * @api public
  */
 function Event(type, source, message) {
-    if(!this) return { type, source, timestamp: new Date(), message }
+    if (!(this instanceof PatientStatus)) return { type, source, timestamp: new Date(), message }
     this.type = type
     this.source = source
     this.timestamp = Date.now()
@@ -53,7 +53,7 @@ function Event(type, source, message) {
  * @api public
  */
 function PatientStatus(patientId, health, patientName) {
-    if(!this) return { patientId, patientName, health }
+    if (!(this instanceof PatientStatus)) return { patientId, patientName, health }
     this.patientId = patientId
     this.patientName = patientName
     this.health = health
