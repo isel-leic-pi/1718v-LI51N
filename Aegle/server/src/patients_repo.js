@@ -42,10 +42,12 @@ function computePatientHealth(lastHeartbeat, heartRate) {
 /**
  * Factory function that produces a new repository instance.
  * @constructs @type PatientsRepo
+ * @param   {Array[model.Event]?} - An optional array bearing the initial set of events to 
+ *                                  be added to the repository.
  * @return  {PatientsRepo} The newly created repository.
  * @api public
  */
-function createRepository() {
+function createRepository(events) {
     const DEFAULT_HEARTRATE = 2
     const patients = new Map()
 
@@ -64,6 +66,25 @@ function createRepository() {
         return new model.PatientStatus(patientId, health, patient.patientData.name)
     }
 
+    const addEvent = (event) => {
+        let patient = patients.get(event.source)
+        if (!patient) {
+            patients.set(event.source, patient = { 
+                patientData: new model.Patient(event.source, DEFAULT_HEARTRATE), 
+                events: new Map()
+            })
+        }
+
+        let eventList = patient.events.get(event.type)
+        if (!eventList) 
+            patient.events.set(event.type, eventList = [])
+
+        eventList.push(event)
+    }
+
+    if (events && events instanceof Array)
+        events.forEach((event) => addEvent(event))
+
     return {
         /** 
          * Registers the given event.
@@ -71,21 +92,18 @@ function createRepository() {
          * @param   {writeCallback} cb - Completion callback.
          * @memberof PatientsRepo# 
          */
-        registerEvent: (event, cb) => {
-            let patient = patients.get(event.source)
-            if (!patient) {
-                patients.set(event.source, patient = { 
-                    patientData: new model.Patient(event.source, DEFAULT_HEARTRATE), 
-                    events: new Map()
-                })
-            }
+        registerEvent: (event, cb) => { addEvent(event); cb() },
 
-            let eventList = patient.events.get(event.type)
-            if (!eventList) 
-                patient.events.set(event.type, eventList = [])
-
-            eventList.push(event)
-            cb()
+        /** 
+         * Gets the list of known patient's.
+         * @param   {readCallback} cb - Completion callback.
+         * @memberof PatientsRepo#
+         */
+        getPatients: (cb) => {
+            const patientsData = Array.from(patients.keys()).map(
+                (patientId) => patients.get(patientId).patientData
+            )
+            cb(null, patientsData)
         },
 
         /** 

@@ -58,7 +58,7 @@ test('patients_repo test: getPatientEvents produces an empty array for an unknow
     sutRepo.getPatientEvents('somePatientId', 'Heartbeat', (err, data) => {
         assert.error(err, 'Patient events obtained')
         assert.ok(Array.isArray(data), 'The result is an array')
-        assert.equal(data.length, 0, 'The result array is')
+        assert.equal(data.length, 0, 'The result array size is correct')
         assert.end()
     })
 })

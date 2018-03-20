@@ -5,56 +5,70 @@ const request = require('supertest')
  
 const appFactory = require('../src/routes.js')
 const model = require('../src/datatypes')
+const repoFactory = require('../src/patients_repo')
 
-/**
- * The test dummy.
- * Terminology according to http://xunitpatterns.com/Test%20Double.html
- */
-const dummyPatient = new model.PatientStatus('The patient ID', 'OK', 'The patient name')
-function dummyRepo() {
-    let callCount = []
-    const incCallCount = (methodName) => { 
-        if (!callCount[methodName])
-            callCount[methodName] = 0
-        callCount[methodName] += 1
-    }
-    return {
-        getPatientsStatus: (cb) => { incCallCount('getPatientsStatus'); cb(null, [dummyPatient]) },
-        registerEvent: (event, cb) => { incCallCount('registerEvent'); cb() },
-        getCallCount: (methodName) => callCount[methodName]
-    }
-}
+const dummyIds = [ 'id1', 'id2' ]
+const dummyEvents = [
+    new model.Event('Heartbeat', dummyIds[0]),
+    new model.Event('Heartbeat', dummyIds[1]),
+    new model.Event('UnhandledError', dummyIds[0]),
+]
 
 test('routes test: GET /patients', function (assert) {
-    
-    const repo = dummyRepo()
+
+    const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo)
 
+    assert.plan(3 + dummyIds.length)
     request(app)
         .get('/patients')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
-            const expectedResult = [ dummyPatient ]
             assert.error(err, 'Assert that no errors occured')
-            const actualResult = res.body
-            assert.same(actualResult, expectedResult, 'Retrieve list of events')
+            const result = res.body
+            assert.ok(Array.isArray(result), 'The result is an array')
+            assert.equal(result.length, dummyIds.length, 'The result array size is correct')
+            dummyIds.forEach((id) => 
+                assert.ok(result.find((elem) => id === elem.id && elem.heartRate))
+            )
             assert.end()
     })
 })
 
+test('routes test: GET /patients/status', function (assert) {
+
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    assert.plan(3 + dummyIds.length)
+    request(app)
+        .get('/patients/status')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            const result = res.body
+            assert.ok(Array.isArray(result), 'The result is an array')
+            assert.equal(result.length, dummyIds.length, 'The result array size is correct')
+            dummyIds.forEach((id) => 
+                assert.ok(result.find((elem) => id === elem.patientId && elem.health))
+            )
+            assert.end()
+    })
+})
+
+
 test('routes test: POST /patients/:id/events', function (assert) {
     
-    const repo = dummyRepo()
+    const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo)
 
     request(app)
         .post('/patients/someApp/events')
         .expect(200)
         .end(function (err, res) {
-            const event = { eventType: 'Heartbeat', source: 'someApp' }
             assert.error(err, 'Assert that no errors occured')
-            assert.equal(repo.getCallCount('registerEvent'), 1)
             assert.end()
         })
 })
