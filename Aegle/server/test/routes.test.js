@@ -30,7 +30,7 @@ test('routes test: GET /patients/:id expecting 200', function (assert) {
             assert.equal(result.id, dummyIds[0], 'The result is the expected instance')
             assert.ok(result.heartRate, 'The resulting patient has a heartrate')
             assert.end()
-    })
+        })
 })
 
 test('routes test: GET /patients/:id expecting 404', function (assert) {
@@ -45,7 +45,78 @@ test('routes test: GET /patients/:id expecting 404', function (assert) {
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
             assert.end()
-    })
+        })
+})
+
+test('routes test: PUT /patients/:id for new patient with application/x-www-form-urlencoded', function(assert) {
+    
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    const patientId = 'newPatientId'
+    const patientData = { heartRate: 5, name: 'The patient name' }
+
+    assert.plan(5)
+    request(app)
+        .put(`/patients/${patientId}`)
+        .type('form')
+        .send(patientData)
+        .expect(200)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            repo.getPatient(patientId, (err, data) => {
+                assert.error(err, 'Patient info obtained')
+                assert.equal(data.id, patientId)
+                assert.equal(data.heartRate, patientData.heartRate)
+                assert.equal(data.name, patientData.name)
+                assert.end()
+            })
+        })
+})
+
+test('routes test: PUT /patients/:id for new patient with application/json', function(assert) {
+    
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    const patientId = 'newPatientId'
+    const patientData = { heartRate: 5, name: 'The patient name' }
+
+    assert.plan(1)
+    request(app)
+        .put(`/patients/${patientId}`)
+        .type('json')
+        .send(patientData)
+        .expect(200)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+        })
+})
+
+test('routes test: PUT /patients/:id for existing patient', function(assert) {
+    
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    const newPatientData = { heartRate: 5, name: 'The patient name' }
+
+    assert.plan(5)
+    request(app)
+        .put(`/patients/${dummyIds[0]}`)
+        .type('json')
+        .send(newPatientData)
+        .expect(200)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            repo.getPatient(dummyIds[0], (err, data) => {
+                assert.error(err, 'Patient info obtained')
+                assert.equal(data.id, dummyIds[0])
+                assert.equal(data.heartRate, newPatientData.heartRate)
+                assert.equal(data.name, newPatientData.name)
+                assert.end()
+            })
+        })
 })
 
 test('routes test: GET /patients', function (assert) {
@@ -67,7 +138,7 @@ test('routes test: GET /patients', function (assert) {
                 assert.ok(result.find((elem) => id === elem.id && elem.heartRate))
             )
             assert.end()
-    })
+        })
 })
 
 test('routes test: GET /status', function (assert) {
@@ -89,20 +160,28 @@ test('routes test: GET /status', function (assert) {
                 assert.ok(result.find((elem) => id === elem.patientId && elem.health))
             )
             assert.end()
-    })
+        })
 })
-
 
 test('routes test: POST /patients/:id/events', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo)
 
+    const someAppId = 'someApp'
+    const eventType = 'Heartbeat'
+
+    assert.plan(4)
     request(app)
-        .post('/patients/someApp/events')
+        .post(`/patients/${someAppId}/events`)
         .expect(200)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
-            assert.end()
+            repo.getPatientEvents(someAppId, eventType, (err, data) => {
+                assert.error(err, `Patient ${eventType} events obtained`)
+                assert.ok(Array.isArray(data), 'The result is an array')
+                assert.equal(data.length, 1, 'The result array size is correct')
+                assert.end()
+            })
         })
 })

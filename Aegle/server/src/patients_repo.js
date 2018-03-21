@@ -86,6 +86,12 @@ function createRepository(events) {
         events.forEach((event) => addEvent(event))
 
     return {
+
+        /**
+         * Exposed for testing purposes only
+         */
+        __patients__: patients,
+
         /** 
          * Registers the given event.
          * @param   {Event} event - The event to be registered.
@@ -114,9 +120,33 @@ function createRepository(events) {
          * @memberof PatientsRepo#
          */
         getPatient: (patientId, cb) => {
-
             const patient = patients.get(patientId) 
             cb(null, patient ? patient.patientData : patient)
+        },
+
+        /**
+         * Updates the given patient information.
+         * @param   {Patient} patient - The patient information to be updated.
+         * @param   {writeCallback} cb - Completion callback.
+         * @memberof PatientsRepo# 
+         */
+        updatePatient: (patient, cb) => {
+            let existingPatient = patients.get(patient.id)
+            if (!existingPatient) {
+                existingPatient = {
+                    patientData: new model.Patient(patient.id, DEFAULT_HEARTRATE), 
+                    events: new Map()
+                }
+            }
+            
+            if (patient.heartRate)
+                existingPatient.patientData.heartRate = patient.heartRate
+            
+            if (patient.name)
+                existingPatient.patientData.name = patient.name
+
+            patients.set(patient.id, existingPatient)
+            cb()
         },
 
         /** 

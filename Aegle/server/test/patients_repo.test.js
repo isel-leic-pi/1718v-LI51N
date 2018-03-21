@@ -104,3 +104,67 @@ test('patients_repo test: getPatientsStatus produces an array with the health of
         })
     }
 })
+
+test('patients_repo test: getPatient produces the existing patient', (assert) => {
+
+    const sutRepo = patientsRepo.createRepository()
+    const aPatient = new model.Patient('patientId', 5)
+    sutRepo.__patients__.set(aPatient.id, { patientData: aPatient, events: new Map() })
+
+    assert.plan(3)
+    sutRepo.getPatient(aPatient.id, (err, data) => {
+        assert.error(err, 'Patient info obtained')
+        assert.ok(data instanceof model.Patient, 'instance is of correct type')
+        assert.equal(data.id, aPatient.id, 'instance is the expected one')
+        assert.end()
+    })
+})
+
+test('patients_repo test: getPatient produces undefined for an unknown patient', (assert) => {
+
+    const sutRepo = patientsRepo.createRepository()        
+
+    assert.plan(2)
+    sutRepo.getPatient('unknownPatientId', (err, data) => {
+        assert.error(err, 'Patient info obtained')
+        assert.notOk(data, 'result is undefined')
+        assert.end()
+    })
+})
+
+test('patients_repo test: updatePatient for non existing patient creates a new one', (assert) => {
+
+    const sutRepo = patientsRepo.createRepository()
+    const patientInfo = new model.Patient('theId', 5, 'The name')
+
+    assert.plan(7)
+    sutRepo.updatePatient(patientInfo, (err) => {
+        assert.error(err, 'Patient info updated')
+        const addedPatient = sutRepo.__patients__.get(patientInfo.id)
+        assert.ok(addedPatient, 'A new instance was added')
+        assert.equal(addedPatient.events.size, 0, 'there are no recorded events')
+        assert.ok(addedPatient.patientData instanceof model.Patient, 'instance is of correct type')
+        assert.equal(addedPatient.patientData.id, patientInfo.id, 'id is correct')
+        assert.equal(addedPatient.patientData.heartRate, patientInfo.heartRate, 'heartRate is correct')
+        assert.equal(addedPatient.patientData.name, patientInfo.name, 'name is correct')
+        assert.end()
+    })
+})
+
+test('patients_repo test: updatePatient for an existing patient updates it', (assert) => {
+    
+    const sutRepo = patientsRepo.createRepository()
+    const patientInfo = new model.Patient('theId', 5, 'the name')
+    sutRepo.__patients__.set(patientInfo.id, { patientData: new model.Patient(patientInfo.id, 4), events: new Map() })
+
+    assert.plan(5)
+    sutRepo.updatePatient(patientInfo, (err) => {
+        assert.error(err, 'Patient info updated')
+        const patient = sutRepo.__patients__.get(patientInfo.id)
+        assert.ok(patient, 'The instance exists')
+        assert.equal(patient.patientData.id, patientInfo.id, 'id is correct')
+        assert.equal(patient.patientData.heartRate, patientInfo.heartRate, 'heartRate is correct')
+        assert.equal(patient.patientData.name, patientInfo.name, 'name is correct')
+        assert.end()
+    })
+})

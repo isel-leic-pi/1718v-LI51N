@@ -22,6 +22,7 @@ module.exports = exports = function(patientsRepository) {
     const app = express()
 
     app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
      
     app.get('/patients', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
@@ -37,6 +38,19 @@ module.exports = exports = function(patientsRepository) {
             if (err) return res.sendStatus(500)
             if (!data) next()
             else res.json(data)
+        })
+    })
+
+    app.put('/patients/:id', (req, res) => {
+        console.log(`Servicing ${req.method} ${req.originalUrl}`)
+        const patientInfo = req.body
+        if (!patientInfo || Number.isNaN(Number(patientInfo.heartRate)))
+            return res.sendStatus(400)
+
+        const patient = new model.Patient(req.params.id, Number(patientInfo.heartRate), patientInfo.name)
+        patientsRepository.updatePatient(patient, (err) => {
+            if (err) return res.sendStatus(500)
+            res.end()
         })
     })
 
