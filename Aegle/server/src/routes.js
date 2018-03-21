@@ -32,7 +32,16 @@ module.exports = exports = function(patientsRepository) {
         })
     })
 
-    app.get('/patients/status', (req, res) => {
+    app.get('/patients', (req, res) => {
+        console.log(`Servicing ${req.method} ${req.originalUrl}`)
+        patientsRepository.getPatients((err, data) => {
+            // TODO: Error handling
+            res.set("Content-Type", "application/json")
+            res.send(JSON.stringify(data))
+        })
+    })
+
+    app.get('/patients-status', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatientsStatus((err, data) => {
             // TODO: Error handling
