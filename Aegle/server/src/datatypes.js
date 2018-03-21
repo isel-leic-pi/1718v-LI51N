@@ -14,7 +14,7 @@ module.exports.PatientStatus = PatientStatus
  * Constructor function that initializes a new Patient instance with the given arguments.
  * @param       {string} id - The patient identifier.
  * @param       {number} heartRate - The expected time interval (in seconds) between heartbeats.
- * @param       {string?} name - The patient's  human friendly name.
+ * @param       {string?} name - The patient's human friendly name.
  * @class
  * @classdesc Data type that represents patients to be monitored.
  * @api public
