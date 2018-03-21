@@ -26,36 +26,34 @@ module.exports = exports = function(patientsRepository) {
     app.get('/patients', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatients((err, data) => {
-            // TODO: Error handling
-            res.set("Content-Type", "application/json")
-            res.send(JSON.stringify(data))
+            if (err) return res.sendStatus(500)
+            res.json(data)
         })
     })
 
-    app.get('/patients/:id', (req, res) => {
+    app.get('/patients/:id', (req, res, next) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatient(req.params.id, (err, data) => {
-            // TODO: Error handling
-            res.set("Content-Type", "application/json")
-            res.send(JSON.stringify(data))
+            if (err) return res.sendStatus(500)
+            if (!data) next()
+            else res.json(data)
         })
     })
 
-    app.get('/patients-status', (req, res) => {
+    app.get('/status', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatientsStatus((err, data) => {
-            // TODO: Error handling
-            res.set("Content-Type", "application/json")
-            res.send(JSON.stringify(data))
+            if (err) return res.sendStatus(500)
+            res.json(data)
         })
     })
 
     app.post('/patients/:id/events', (req, res) => {
         console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.registerEvent(new model.Event('Heartbeat', req.params.id), (err) => {
-            // TODO: Error handling
+            if (err) return res.sendStatus(500)
+            res.end()
         })
-        res.end()
     })
 
     return app

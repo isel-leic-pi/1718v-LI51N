@@ -42,7 +42,6 @@ test('routes test: GET /patients/:id expecting 404', function (assert) {
     request(app)
         .get(`/patients/nonExistingId`)
         .expect(404)
-        .expect('Content-Type', /json/)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
             assert.end()
@@ -71,14 +70,14 @@ test('routes test: GET /patients', function (assert) {
     })
 })
 
-test('routes test: GET /patients-status', function (assert) {
+test('routes test: GET /status', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo)
 
     assert.plan(3 + dummyIds.length)
     request(app)
-        .get('/patients-status')
+        .get('/status')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
