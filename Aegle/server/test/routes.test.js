@@ -14,6 +14,41 @@ const dummyEvents = [
     new model.Event('UnhandledError', dummyIds[0]),
 ]
 
+test('routes test: GET /patients/:id expecting 200', function (assert) {
+
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    assert.plan(3)
+    request(app)
+        .get(`/patients/${dummyIds[0]}`)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            const result = res.body
+            assert.equal(result.id, dummyIds[0], 'The result is the expected instance')
+            assert.ok(result.heartRate, 'The resulting patient has a heartrate')
+            assert.end()
+    })
+})
+
+test('routes test: GET /patients/:id expecting 404', function (assert) {
+
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    assert.plan(1)
+    request(app)
+        .get(`/patients/nonExistingId`)
+        .expect(404)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+    })
+})
+
 test('routes test: GET /patients', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)

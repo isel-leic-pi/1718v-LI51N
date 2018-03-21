@@ -107,6 +107,19 @@ function createRepository(events) {
         },
 
         /** 
+         * Gets the patient with the given identifier. Calls the read callback with the patient 
+         * instance or undefined, if the client was not found.
+         * @param   {string} patientId - The patient identifier.
+         * @param   {readCallback} cb - Completion callback.
+         * @memberof PatientsRepo#
+         */
+        getPatient: (patientId, cb) => {
+
+            const patient = patients.get(patientId) 
+            cb(null, patient ? patient.patientData : patient)
+        },
+
+        /** 
          * Gets the list of known patient's status.
          * @param   {readCallback} cb - Completion callback.
          * @memberof PatientsRepo#
