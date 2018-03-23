@@ -23,49 +23,53 @@ module.exports = exports = function(patientsRepository) {
 
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
+
+    app.use((req, res, next) => {
+        const oldEnd = res.end
+        res.end = function (...args) { 
+            console.log(`Serviced ${req.method} ${req.originalUrl} with status code ${res.statusCode}`)
+            return oldEnd.call(this, ...args) 
+        }
+        next()
+    })
      
     app.get('/patients', (req, res) => {
-        console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatients((err, data) => {
-            if (err) return res.sendStatus(500)
+            if (err) throw err
             res.json(data)
         })
     })
 
     app.get('/patients/:id', (req, res, next) => {
-        console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatient(req.params.id, (err, data) => {
-            if (err) return res.sendStatus(500)
+            if (err) throw err
             if (!data) next()
             else res.json(data)
         })
     })
 
     app.put('/patients/:id', (req, res) => {
-        console.log(`Servicing ${req.method} ${req.originalUrl}`)
         const patientInfo = req.body
         if (!patientInfo || Number.isNaN(Number(patientInfo.heartRate)))
             return res.sendStatus(400)
 
         const patient = new model.Patient(req.params.id, Number(patientInfo.heartRate), patientInfo.name)
         patientsRepository.updatePatient(patient, (err) => {
-            if (err) return res.sendStatus(500)
+            if (err) throw err
             res.end()
         })
     })
 
     app.get('/status', (req, res) => {
-        console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.getPatientsStatus((err, data) => {
-            if (err) return res.sendStatus(500)
+            if (err) throw err
             res.json(data)
         })
     })
 
     app.post('/patients/:id/events', (req, res) => {
-        console.log(`Servicing ${req.method} ${req.originalUrl}`)
         patientsRepository.registerEvent(new model.Event('Heartbeat', req.params.id), (err) => {
-            if (err) return res.sendStatus(500)
+            if (err) throw err
             res.end()
         })
     })
