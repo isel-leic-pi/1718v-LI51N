@@ -18,8 +18,7 @@ function main(port) {
 
     const app = require('./src/routes')
     const repo = require('./src/patients_repo')
-    const server = app(repo)
+    const server = app(repo.createRepository())
 
-    server.listen(Number(port))
-    console.log(`Server is listening on port ${port}`)
+    server.listen(Number(port), () => console.log(`Server is listening on port ${port}`))
 }
