@@ -163,7 +163,54 @@ test('routes test: GET /status', function (assert) {
         })
 })
 
-test('routes test: POST /patients/:id/events', function (assert) {
+test('routes test: GET /patients/:id/events unknown :id', function (assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    const someAppId = 'someUnknownApp'
+    const eventType = 'Heartbeat'
+
+    assert.plan(1)
+    request(app)
+        .get(`/patients/${someAppId}/events`)
+        .expect(404)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+        })
+})
+
+test('routes test: GET /patients/:id/events without query string', function (assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    assert.plan(1)
+    request(app)
+        .get(`/patients/${dummyIds[0]}/events`)
+        .expect(400)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+        })
+})
+
+test('routes test: GET /patients/:id/events with valid query string', function (assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    assert.plan(1)
+    request(app)
+        .get(`/patients/${dummyIds[0]}/events`)
+        .query({eventType: 'Heartbeat'})
+        .expect(200)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+        })
+})
+
+
+test('routes test: POST /patients/:id/events with invalid payload', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo)
@@ -171,16 +218,36 @@ test('routes test: POST /patients/:id/events', function (assert) {
     const someAppId = 'someApp'
     const eventType = 'Heartbeat'
 
-    assert.plan(4)
+    assert.plan(1)
     request(app)
         .post(`/patients/${someAppId}/events`)
+        .expect(400)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            assert.end()
+        })
+})
+
+test('routes test: POST /patients/:id/events with valid payload', function (assert) {
+    
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo)
+
+    const someAppId = 'someApp'
+    const eventType = 'Heartbeat'
+
+    assert.plan(5)
+    request(app)
+        .post(`/patients/${someAppId}/events`)
+        .send({eventType, source: someAppId, message: 'I LIVE!'})
         .expect(200)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
             repo.getPatientEvents(someAppId, eventType, (err, data) => {
-                assert.error(err, `Patient ${eventType} events obtained`)
+                assert.error(err, 'Assert that no errors occured')
                 assert.ok(Array.isArray(data), 'The result is an array')
                 assert.equal(data.length, 1, 'The result array size is correct')
+                assert.ok(data.find((elem) => elem instanceof model.Event))
                 assert.end()
             })
         })

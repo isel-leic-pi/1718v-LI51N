@@ -48,7 +48,7 @@ function computePatientHealth(lastHeartbeat, heartRate) {
  * @api public
  */
 function createRepository(events) {
-    const DEFAULT_HEARTRATE = 2
+    const DEFAULT_HEARTRATE = 10
     const patients = new Map()
 
     const getStatus = (patientId) => {

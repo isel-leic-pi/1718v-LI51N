@@ -67,8 +67,29 @@ module.exports = exports = function(patientsRepository) {
         })
     })
 
+    app.get('/patients/:id/events', (req, res, next) => {
+
+        patientsRepository.getPatient(req.params.id, (err, data) => {
+            if (err) throw err
+            if (!data) return next()
+            
+            if (!req.query.eventType)
+                return res.sendStatus(400)
+    
+            patientsRepository.getPatientEvents(req.params.id, req.query.eventType, (err, data) => {
+                if (err) throw err
+                res.json(data)
+            })
+        })
+    })
+
     app.post('/patients/:id/events', (req, res) => {
-        patientsRepository.registerEvent(new model.Event('Heartbeat', req.params.id), (err) => {
+
+        const dto = req.body
+        if (!dto || !dto.eventType)
+            return res.sendStatus(400)
+
+        patientsRepository.registerEvent(new model.Event(dto.eventType, dto.source, dto.message), (err) => {
             if (err) throw err
             res.end()
         })
