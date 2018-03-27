@@ -15,14 +15,13 @@ const model = require('./datatypes')
 /**
  * Creates an express application instance and initiates it with the set of supported routes.
  * @param {patients_repo.PatientsRepo} - The repository instance to be used
+ * @param {string} - The application's root directory
  * @return {express.Application} - The newly created application
  */
-module.exports = exports = function(patientsRepository) {
+module.exports = exports = function(patientsRepository, root) {
     
     const app = express()
-
-    app.use(express.urlencoded({ extended: true }))
-    app.use(express.json())
+    const path = require('path')
 
     app.use((req, res, next) => {
         const oldEnd = res.end
@@ -33,6 +32,10 @@ module.exports = exports = function(patientsRepository) {
         next()
     })
      
+    app.use(express.static(path.join(root, 'static')))
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+
     app.get('/patients', (req, res) => {
         patientsRepository.getPatients((err, data) => {
             if (err) throw err
