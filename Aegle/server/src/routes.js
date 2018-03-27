@@ -23,6 +23,8 @@ module.exports = exports = function(patientsRepository, root) {
     const app = express()
     const path = require('path')
 
+    app.set('view engine', 'hbs')
+
     app.use((req, res, next) => {
         const oldEnd = res.end
         res.end = function (...args) { 
