@@ -17,7 +17,7 @@ const dummyEvents = [
 test('routes test: GET /patients/:id expecting 200', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(3)
     request(app)
@@ -36,7 +36,7 @@ test('routes test: GET /patients/:id expecting 200', function (assert) {
 test('routes test: GET /patients/:id expecting 404', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
@@ -51,7 +51,7 @@ test('routes test: GET /patients/:id expecting 404', function (assert) {
 test('routes test: PUT /patients/:id for new patient with application/x-www-form-urlencoded', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const patientId = 'newPatientId'
     const patientData = { heartRate: 5, name: 'The patient name' }
@@ -77,7 +77,7 @@ test('routes test: PUT /patients/:id for new patient with application/x-www-form
 test('routes test: PUT /patients/:id for new patient with application/json', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const patientId = 'newPatientId'
     const patientData = { heartRate: 5, name: 'The patient name' }
@@ -97,7 +97,7 @@ test('routes test: PUT /patients/:id for new patient with application/json', fun
 test('routes test: PUT /patients/:id for existing patient', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const newPatientData = { heartRate: 5, name: 'The patient name' }
 
@@ -122,7 +122,7 @@ test('routes test: PUT /patients/:id for existing patient', function(assert) {
 test('routes test: GET /patients', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(3 + dummyIds.length)
     request(app)
@@ -144,7 +144,7 @@ test('routes test: GET /patients', function (assert) {
 test('routes test: GET /status', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(3 + dummyIds.length)
     request(app)
@@ -165,7 +165,7 @@ test('routes test: GET /status', function (assert) {
 
 test('routes test: GET /patients/:id/events unknown :id', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const someAppId = 'someUnknownApp'
     const eventType = 'Heartbeat'
@@ -182,7 +182,7 @@ test('routes test: GET /patients/:id/events unknown :id', function (assert) {
 
 test('routes test: GET /patients/:id/events without query string', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
@@ -196,7 +196,7 @@ test('routes test: GET /patients/:id/events without query string', function (ass
 
 test('routes test: GET /patients/:id/events with valid query string', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
@@ -213,7 +213,7 @@ test('routes test: GET /patients/:id/events with valid query string', function (
 test('routes test: POST /patients/:id/events with invalid payload', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const someAppId = 'someApp'
     const eventType = 'Heartbeat'
@@ -231,7 +231,7 @@ test('routes test: POST /patients/:id/events with invalid payload', function (as
 test('routes test: POST /patients/:id/events with valid payload', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
-    const app = appFactory(repo)
+    const app = appFactory(repo, __dirname)
 
     const someAppId = 'someApp'
     const eventType = 'Heartbeat'
