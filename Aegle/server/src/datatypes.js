@@ -45,8 +45,8 @@ function Event(type, source, message) {
 
 /**
  * Constructor function that initializes a new PatientStatus instance with the given arguments.
- * @param    {string} patientId - The event type (e.g. 'Heartbeat' | 'UnhandledError' | ...).
- * @param    {string} health - The patient's healt (i.e. OK | DEAD | UNKNOWN)
+ * @param    {string} patientId - The patient identifier.
+ * @param    {string} health - The patient's health (i.e. OK | DEAD | UNKNOWN)
  * @param    {string} patientName? - The patient name, if available.
  * @class
  * @classdesc Data type that represents the status of a given patient (it's a DTO, actually).
