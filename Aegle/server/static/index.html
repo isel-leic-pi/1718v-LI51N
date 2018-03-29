@@ -1,12 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Semantic UI CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
 
     <!-- Favorite icon -->
     <link rel="icon" href="images/favicon.ico" />
@@ -14,10 +11,29 @@
     <title>Aegle - Application health</title>
   </head>
   <body>
-    <h1>Aegle</h1>
-    <ul>
-      <li><a href="/patients">Patients</a></li>
-      <li><a href="/status">Patients' status</a></li>
-    </ul>
+    <div class="ui pointing menu">
+      <div class="ui container">
+        <div class="item"><img class="ui mini image" src="/images/heart_logo.png"></div>
+        <a class="item active" href="/"><i class="plus symbol icon"></i> Home</a>
+        <a class="item" href="/patients"><i class="address card icon"></i> Patients</a>
+        <a class="item" href="/status"><i class="heartbeat icon"></i> Status</a>
+      </div>
+    </div>
+
+    <div class="ui segment">
+      <div class="ui two column grid container">
+        <div class="column middle aligned">
+            <div class="ui small image floated right"><img src="/images/heart_logo.png"></div>
+        </div>
+        <div class="column middle aligned">
+          <h4>Aegle</h4>
+          <div>Application Health Monitoring</div>
+          <div>by Paulo Pereira</div>
+        </div>
+      </div>
+      <h4 class="ui horizontal divider header">
+          <i class="ambulance icon"></i> Alerts
+      </h4>
+    </div>
   </body>
 </html>
