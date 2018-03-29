@@ -22,8 +22,11 @@ module.exports = exports = function(patientsRepository, root) {
     
     const app = express()
     const path = require('path')
+    const hbs = require('hbs')
 
     app.set('view engine', 'hbs')
+    app.set('views', path.join(__dirname, './views'))
+    hbs.registerHelper('equals', (theOne, theOther) => theOne === theOther)
 
     app.use((req, res, next) => {
         const oldEnd = res.end
@@ -41,7 +44,10 @@ module.exports = exports = function(patientsRepository, root) {
     app.get('/patients', (req, res) => {
         patientsRepository.getPatients((err, data) => {
             if (err) throw err
-            res.json(data)
+            res.format({
+                html: () => res.render('patients.hbs', { patients: data }),
+                json: () => res.json(data)
+            })
         })
     })
 
@@ -68,7 +74,10 @@ module.exports = exports = function(patientsRepository, root) {
     app.get('/status', (req, res) => {
         patientsRepository.getPatientsStatus((err, data) => {
             if (err) throw err
-            res.json(data)
+            res.format({
+                html: () => res.render('status.hbs', { patientsStatus: data }),
+                json: () => res.json(data)
+            })
         })
     })
 
