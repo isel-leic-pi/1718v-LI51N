@@ -52,14 +52,14 @@ module.exports = exports = function(patientsRepository, root) {
     })
 
     app.post('/patients', (req, res) => {
-        const patientInfo = req.body
-        if (!patientInfo || !patientInfo.id || Number.isNaN(Number(patientInfo.heartRate)))
+        const info = req.body
+        if (!info || !info.patientId || Number.isNaN(Number(info.heartrate)))
             return res.sendStatus(400)
 
-        const patient = new model.Patient(patientInfo.id, Number(patientInfo.heartRate), patientInfo.name)
+        const patient = new model.Patient(info.patientId, Number(info.heartrate), info.description)
         patientsRepository.updatePatient(patient, (err) => {
             if (err) throw err
-            res.redirect(303, `${req.url}/${patientInfo.id}`)
+            res.redirect(303, `${req.url}/${info.patientId}`)
         })
     })
 

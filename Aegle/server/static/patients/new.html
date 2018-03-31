@@ -21,7 +21,7 @@
     </div>
 
     <div class="ui segment">
-        <form class="ui form container">
+        <form class="ui form container" method="POST" action="/patients">
           <h4 class="ui dividing header">Patient Information</h4>
           <div class="fields">
             <div class="ten wide required field">
@@ -34,7 +34,7 @@
             </div>
             <div class="three wide field">
                 <label>Units</label>
-                <select class="ui simple dropdown" name="units">
+                <select class="ui simple dropdown" name="units" disabled>
                   <option value="seconds">seconds</option>
                   <option value="minutes">minutes</option>
                   <option value="hours">hours</option>
