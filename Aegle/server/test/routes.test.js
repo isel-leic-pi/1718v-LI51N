@@ -127,6 +127,7 @@ test('routes test: GET /patients', function (assert) {
     assert.plan(3 + dummyIds.length)
     request(app)
         .get('/patients')
+        .accept('application/json')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
@@ -150,6 +151,7 @@ test('routes test: GET /status', function (assert) {
     request(app)
         .get('/status')
         .expect(200)
+        .accept('application/json')
         .expect('Content-Type', /json/)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
