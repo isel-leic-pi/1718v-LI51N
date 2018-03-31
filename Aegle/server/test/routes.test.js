@@ -119,6 +119,53 @@ test('routes test: PUT /patients/:id for existing patient', function(assert) {
         })
 })
 
+test('routes test: POST /patients for creating a new patient with valid information', function (assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo, __dirname)
+
+    const newPatientData = { id: 'ID', heartRate: 5, name: 'The patient name' }
+
+    assert.plan(5)
+    request(app)
+        .post('/patients')
+        .type('form')
+        .send(newPatientData)
+        .expect(303)
+        .expect('Location', `/patients/${newPatientData.id}`)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            repo.getPatient(newPatientData.id, (err, data) => {
+                assert.ok(data, 'The patient was created')
+                assert.equal(data.id, newPatientData.id, 'The ID is correct')
+                assert.equal(data.heartRate, newPatientData.heartRate, 'The heartRate is correct')
+                assert.equal(data.name, newPatientData.name, 'The name is correct')
+                assert.end()
+            })
+        })
+})
+
+test('routes test: POST /patients for creating a new patient with absent ID', function (assert) {
+    const app = appFactory(repoFactory.createRepository(), __dirname)
+    const newPatientData = { heartRate: 5, name: 'The patient name' }
+
+    request(app)
+        .post('/patients')
+        .type('form')
+        .send(newPatientData)
+        .expect(400, assert.end)
+})
+
+test('routes test: POST /patients for creating a new patient with absent heartRate', function (assert) {
+    const app = appFactory(repoFactory.createRepository(), __dirname)
+    const newPatientData = { id: 'ID' }
+
+    request(app)
+        .post('/patients')
+        .type('form')
+        .send(newPatientData)
+        .expect(400, assert.end)
+})
+
 test('routes test: GET /patients', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)

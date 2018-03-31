@@ -51,6 +51,18 @@ module.exports = exports = function(patientsRepository, root) {
         })
     })
 
+    app.post('/patients', (req, res) => {
+        const patientInfo = req.body
+        if (!patientInfo || !patientInfo.id || Number.isNaN(Number(patientInfo.heartRate)))
+            return res.sendStatus(400)
+
+        const patient = new model.Patient(patientInfo.id, Number(patientInfo.heartRate), patientInfo.name)
+        patientsRepository.updatePatient(patient, (err) => {
+            if (err) throw err
+            res.redirect(303, `${req.url}/${patientInfo.id}`)
+        })
+    })
+
     app.get('/patients/:id', (req, res, next) => {
         patientsRepository.getPatient(req.params.id, (err, data) => {
             if (err) throw err
