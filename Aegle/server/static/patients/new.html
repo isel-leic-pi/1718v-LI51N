@@ -21,32 +21,32 @@
     </div>
 
     <div class="ui segment">
-        <form class="ui form container" method="POST" action="/patients">
-          <h4 class="ui dividing header">Patient Information</h4>
-          <div class="fields">
-            <div class="ten wide required field">
-              <label>Identifier</label>
-              <input type="text" name="patientId" placeholder="a short name" />
-            </div>
-            <div class="three wide required field">
-                <label>Heart rate</label>
-                <input type="number" name="heartrate" min="1" placeholder="time interval" />
-            </div>
-            <div class="three wide field">
-                <label>Units</label>
-                <select class="ui simple dropdown" name="units" disabled>
-                  <option value="seconds">seconds</option>
-                  <option value="minutes">minutes</option>
-                  <option value="hours">hours</option>
-                </select>
-            </div>
+      <form class="ui form container" method="POST" action="/patients">
+        <h4 class="ui dividing header">Patient Information</h4>
+        <div class="fields">
+          <div class="ten wide required field">
+            <label>Identifier</label>
+            <input type="text" name="patientId" placeholder="a short name" />
           </div>
-          <div class="field">
-              <label>Description</label>
-              <textarea rows="2" name="description" placeholder="a description (or a very long name =P)" ></textarea>
+          <div class="three wide required field">
+              <label>Heart rate</label>
+              <input type="number" name="heartrate" min="1" placeholder="time interval" />
           </div>
-          <button class="ui button" type="submit">Submit</button>
-        </form>
+          <div class="three wide field">
+              <label>Units</label>
+              <select class="ui simple dropdown" name="units" disabled>
+                <option value="seconds">seconds</option>
+                <option value="minutes">minutes</option>
+                <option value="hours">hours</option>
+              </select>
+          </div>
+        </div>
+        <div class="field">
+            <label>Description</label>
+            <textarea rows="2" name="description" placeholder="a description (or a very long name =P)" ></textarea>
+        </div>
+        <button class="ui button" type="submit">Submit</button>
+      </form>
     </div>
   </body>
 </html>
