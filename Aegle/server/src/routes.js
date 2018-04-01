@@ -67,7 +67,12 @@ module.exports = exports = function(patientsRepository, root) {
         patientsRepository.getPatient(req.params.id, (err, data) => {
             if (err) throw err
             if (!data) next()
-            else res.json(data)
+            else {
+                res.format({
+                    html: () => res.render('patient.hbs', data),
+                    json: () => res.json(data)
+                })
+            }
         })
     })
 

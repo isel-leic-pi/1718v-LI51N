@@ -22,6 +22,7 @@ test('routes test: GET /patients/:id expecting 200', function (assert) {
     assert.plan(3)
     request(app)
         .get(`/patients/${dummyIds[0]}`)
+        .accept('application/json')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
