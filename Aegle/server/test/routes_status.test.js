@@ -1,6 +1,14 @@
 'use strict'
  
-const test = require('tape');
+/**
+ * Test suit for the routes_status module.
+ * 
+ * The tests use TAPE and Supertest.
+ * Supertest is based in superagent, whose docs are hosted here:
+ * http://visionmedia.github.io/superagent
+ */
+
+const test = require('tape')
 const request = require('supertest')
  
 const appFactory = require('../src/routes.js')

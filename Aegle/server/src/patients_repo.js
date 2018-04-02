@@ -142,8 +142,7 @@ function createRepository(events) {
             if (patient.heartRate)
                 existingPatient.patientData.heartRate = patient.heartRate
             
-            if (patient.name)
-                existingPatient.patientData.name = patient.name
+            existingPatient.patientData.name = patient.name
 
             patients.set(patient.id, existingPatient)
             cb()

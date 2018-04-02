@@ -1,6 +1,14 @@
 'use strict'
  
-const test = require('tape');
+/**
+ * Test suit for the routes_patient module.
+ * 
+ * The tests use TAPE and Supertest.
+ * Supertest is based in superagent, whose docs are hosted here:
+ * http://visionmedia.github.io/superagent
+ */
+
+const test = require('tape')
 const request = require('supertest')
  
 const appFactory = require('../src/routes.js')
@@ -122,6 +130,65 @@ test('routes test: PUT /patients/:id for existing patient', function(assert) {
                 assert.end()
             })
         })
+})
+
+test('routes test: POST /patients/:id for new patient', function(assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo, __dirname)
+
+    const newPatientData = { patientId: 'ID', heartrate: 5, description: 'The patient name' }
+
+    assert.plan(2)
+    request(app)
+        .post(`/patients/${newPatientData.patientId}`)
+        .type('form')
+        .send(newPatientData)
+        .redirects(0)
+        .expect(404)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            repo.getPatient(newPatientData.patientId, (err, data) => {
+                assert.notOk(data, 'Patient should not have been created')
+                assert.end()
+            })
+        })
+})
+
+test('routes test: POST /patients/:id for existing patient with required fields', function(assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo, __dirname)
+
+    const patientData = { patientId: dummyIds[0], heartrate: 42, description: 'The patient name' }
+
+    assert.plan(5)
+    request(app)
+        .post(`/patients/${patientData.patientId}`)
+        .type('form')
+        .send(patientData)
+        .redirects(0)
+        .expect(303)
+        .end(function (err, res) {
+            assert.error(err, 'Assert that no errors occured')
+            repo.getPatient(patientData.patientId, (err, data) => {
+                assert.ok(data, 'The patient was created')
+                assert.equal(data.id, patientData.patientId, 'The ID is correct')
+                assert.equal(data.heartRate, patientData.heartrate, 'The heartRate is correct')
+                assert.equal(data.name, patientData.description, 'The name is correct')
+                assert.end()
+            })
+        })
+})
+
+test('routes test: POST /patients/:id for existing patient with absent heart rate', function(assert) {
+    const repo = repoFactory.createRepository(dummyEvents)
+    const app = appFactory(repo, __dirname)
+
+    request(app)
+        .post(`/patients/${dummyIds[0]}`)
+        .type('form')
+        .send({ description: 'The patient name' })
+        .redirects(0)
+        .expect(400, assert.end)
 })
 
 test('routes test: POST /patients for creating a new patient with valid information', function (assert) {
