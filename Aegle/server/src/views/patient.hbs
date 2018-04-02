@@ -21,7 +21,7 @@
     </div>
     
     <div class="ui segment">
-        <form class="ui form container" method="POST" action="/patients/{{id}}">
+        <form class="ui form container" method="POST" action="/patients/{{id}}?_method=PUT">
           <h4 class="ui dividing header">Patient Information</h4>
           <div class="fields">
             <div class="ten wide field">
@@ -30,7 +30,7 @@
             </div>
             <div class="three wide required field">
                 <label>Heart rate</label>
-                <input type="number" name="heartrate" min="1" value="{{heartRate}}" />
+                <input type="number" name="heartRate" min="1" value="{{heartRate}}" />
             </div>
             <div class="three wide field">
                 <label>Units</label>
@@ -43,7 +43,7 @@
           </div>
           <div class="field">
               <label>Description</label>
-              <textarea rows="2" name="description" 
+              <textarea rows="2" name="name" 
                 {{#unless name}} placeholder="a description (or a very long name =P)"
                 {{/unless}}>{{#if name}}{{name}}{{/if}}</textarea>
           </div>

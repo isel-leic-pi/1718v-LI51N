@@ -136,11 +136,11 @@ test('routes test: POST /patients/:id for new patient', function(assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
-    const newPatientData = { patientId: 'ID', heartrate: 5, description: 'The patient name' }
+    const newPatientData = { patientId: 'ID', heartRate: 5, name: 'The patient name' }
 
     assert.plan(2)
     request(app)
-        .post(`/patients/${newPatientData.patientId}`)
+        .post(`/patients/${newPatientData.patientId}?_method=PUT`)
         .type('form')
         .send(newPatientData)
         .redirects(0)
@@ -158,11 +158,11 @@ test('routes test: POST /patients/:id for existing patient with required fields'
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
-    const patientData = { patientId: dummyIds[0], heartrate: 42, description: 'The patient name' }
+    const patientData = { patientId: dummyIds[0], heartRate: 42, name: 'The patient name' }
 
     assert.plan(5)
     request(app)
-        .post(`/patients/${patientData.patientId}`)
+        .post(`/patients/${patientData.patientId}?_method=PUT`)
         .type('form')
         .send(patientData)
         .redirects(0)
@@ -172,8 +172,8 @@ test('routes test: POST /patients/:id for existing patient with required fields'
             repo.getPatient(patientData.patientId, (err, data) => {
                 assert.ok(data, 'The patient was created')
                 assert.equal(data.id, patientData.patientId, 'The ID is correct')
-                assert.equal(data.heartRate, patientData.heartrate, 'The heartRate is correct')
-                assert.equal(data.name, patientData.description, 'The name is correct')
+                assert.equal(data.heartRate, patientData.heartRate, 'The heartRate is correct')
+                assert.equal(data.name, patientData.name, 'The name is correct')
                 assert.end()
             })
         })
@@ -184,7 +184,7 @@ test('routes test: POST /patients/:id for existing patient with absent heart rat
     const app = appFactory(repo, __dirname)
 
     request(app)
-        .post(`/patients/${dummyIds[0]}`)
+        .post(`/patients/${dummyIds[0]}?_method=PUT`)
         .type('form')
         .send({ description: 'The patient name' })
         .redirects(0)

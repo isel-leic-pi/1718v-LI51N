@@ -43,26 +43,6 @@ module.exports = exports = function(patientsRepository, express) {
         })
     })
 
-    router.post('/:id', (req, res, next) => {
-        const info = req.body
-        patientsRepository.getPatient(req.params.id, (err, data) => {
-            if (err) throw err
-            if (!data) next()
-            else {
-                // TODO: Remove duplication
-                const patientInfo = req.body
-                if (!patientInfo || Number.isNaN(Number(patientInfo.heartrate)))
-                    return res.sendStatus(400)
-        
-                const patient = new model.Patient(req.params.id, Number(patientInfo.heartrate), patientInfo.description)
-                patientsRepository.updatePatient(patient, (err) => {
-                    if (err) throw err
-                    res.redirect(303, `${req.originalUrl}`)
-                })
-            }
-        })
-    })
-
     router.get('/:id', (req, res, next) => {
         patientsRepository.getPatient(req.params.id, (err, data) => {
             if (err) throw err
@@ -76,16 +56,30 @@ module.exports = exports = function(patientsRepository, express) {
         })
     })
 
-    router.put('/:id', (req, res) => {
+    router.put('/:id', (req, res, next) => {
+
         const patientInfo = req.body
         if (!patientInfo || Number.isNaN(Number(patientInfo.heartRate)))
             return res.sendStatus(400)
 
-        const patient = new model.Patient(req.params.id, Number(patientInfo.heartRate), patientInfo.name)
-        patientsRepository.updatePatient(patient, (err) => {
-            if (err) throw err
-            res.end()
-        })
+        const updatePatient = function(redirectUrl) {
+            const patient = new model.Patient(req.params.id, Number(patientInfo.heartRate), patientInfo.name)
+            patientsRepository.updatePatient(patient, (err) => {
+                if (err) throw err
+                if (redirectUrl) res.redirect(303, `${req.originalUrl}`)
+                else res.end()
+            })
+        }
+
+        if (req.originalMethod === 'POST') {
+            patientsRepository.getPatient(req.params.id, (err, data) => {
+                if (err) throw err
+                if (!data) next()
+                else updatePatient(`${req.originalUrl}`)
+            })
+        } else {
+            updatePatient()
+        }
     })
 
     return router

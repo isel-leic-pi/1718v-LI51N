@@ -25,6 +25,7 @@ module.exports = exports = function(patientsRepository, root) {
     const app = express()
     const path = require('path')
     const hbs = require('hbs')
+    const methodOverride = require('method-override')
 
     app.set('view engine', 'hbs')
     app.set('views', path.join(__dirname, './views'))
@@ -43,6 +44,8 @@ module.exports = exports = function(patientsRepository, root) {
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
 
+    app.use(methodOverride('_method'))
+    
     app.use('/patients', patientsRoutes(patientsRepository, express))
     app.use('/', statusRoutes(patientsRepository, express))
 
