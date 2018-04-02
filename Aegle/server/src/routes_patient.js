@@ -13,13 +13,14 @@ const model = require('./datatypes')
 
 /**
  * Creates an express.Router instance and initiates it with the set of supported routes.
- * @param {patients_repo.PatientsRepo} - The repository instance to be used
+ * @param {patients_repo.PatientsRepo} patientsRepository - The repository instance to be used
+ * @param {express.Application} express - The express application instance
  * @return {express.Router} - The newly created instance
  */
 module.exports = exports = function(patientsRepository, express) {
     
     const router = express.Router()
-    
+
     router.get('/', (req, res) => {
         patientsRepository.getPatients((err, data) => {
             if (err) throw err
