@@ -1,24 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Semantic UI CSS and JS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
-
-    <!-- Favorite icon -->
-    <link rel="icon" href="images/favicon.ico" />
-
-    <title>Aegle - Application health</title>
+    {{> head}}
   </head>
   <body>
-    <div class="ui pointing menu">
-      <div class="ui container">
-        <div class="item"><img class="ui mini image" src="/images/heart_logo.png"></div>
-        <a class="item active" href="/"><i class="plus symbol icon"></i> Home</a>
-        <a class="item" href="/patients"><i class="address card icon"></i> Patients</a>
-        <a class="item" href="/status"><i class="heartbeat icon"></i> Status</a>
-      </div>
-    </div>
+    {{> menu home="active"}}    
 
     <div class="ui segment">
       <div class="ui two column grid container">

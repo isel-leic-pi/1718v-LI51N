@@ -22,14 +22,14 @@ const dummyEvents = [
     new model.Event('UnhandledError', dummyIds[0]),
 ]
 
-test('routes test: GET /patients/:id expecting 200', function (assert) {
+test('routes test: GET /aegle/patients/:id expecting 200', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(3)
     request(app)
-        .get(`/patients/${dummyIds[0]}`)
+        .get(`/aegle/patients/${dummyIds[0]}`)
         .accept('application/json')
         .expect(200)
         .expect('Content-Type', /json/)
@@ -42,14 +42,14 @@ test('routes test: GET /patients/:id expecting 200', function (assert) {
         })
 })
 
-test('routes test: GET /patients/:id expecting 404', function (assert) {
+test('routes test: GET /aegle/patients/:id expecting 404', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
-        .get(`/patients/nonExistingId`)
+        .get(`/aegle/patients/nonExistingId`)
         .expect(404)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
@@ -57,7 +57,7 @@ test('routes test: GET /patients/:id expecting 404', function (assert) {
         })
 })
 
-test('routes test: PUT /patients/:id for new patient with application/x-www-form-urlencoded', function(assert) {
+test('routes test: PUT /aegle/patients/:id for new patient with application/x-www-form-urlencoded', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     repo.__patients__.set('tretaId', { 
@@ -71,7 +71,7 @@ test('routes test: PUT /patients/:id for new patient with application/x-www-form
 
     assert.plan(5)
     request(app)
-        .put(`/patients/${patientId}`)
+        .put(`/aegle/patients/${patientId}`)
         .type('form')
         .send(patientData)
         .expect(200)
@@ -87,7 +87,7 @@ test('routes test: PUT /patients/:id for new patient with application/x-www-form
         })
 })
 
-test('routes test: PUT /patients/:id for new patient with application/json', function(assert) {
+test('routes test: PUT /aegle/patients/:id for new patient with application/json', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
@@ -97,7 +97,7 @@ test('routes test: PUT /patients/:id for new patient with application/json', fun
 
     assert.plan(1)
     request(app)
-        .put(`/patients/${patientId}`)
+        .put(`/aegle/patients/${patientId}`)
         .type('json')
         .send(patientData)
         .expect(200)
@@ -107,7 +107,7 @@ test('routes test: PUT /patients/:id for new patient with application/json', fun
         })
 })
 
-test('routes test: PUT /patients/:id for existing patient', function(assert) {
+test('routes test: PUT /aegle/patients/:id for existing patient', function(assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
@@ -116,7 +116,7 @@ test('routes test: PUT /patients/:id for existing patient', function(assert) {
 
     assert.plan(5)
     request(app)
-        .put(`/patients/${dummyIds[0]}`)
+        .put(`/aegle/patients/${dummyIds[0]}`)
         .type('json')
         .send(newPatientData)
         .expect(200)
@@ -132,7 +132,7 @@ test('routes test: PUT /patients/:id for existing patient', function(assert) {
         })
 })
 
-test('routes test: POST /patients/:id for new patient', function(assert) {
+test('routes test: POST /aegle/patients/:id for new patient', function(assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
@@ -140,7 +140,7 @@ test('routes test: POST /patients/:id for new patient', function(assert) {
 
     assert.plan(2)
     request(app)
-        .post(`/patients/${newPatientData.patientId}?_method=PUT`)
+        .post(`/aegle/patients/${newPatientData.patientId}?_method=PUT`)
         .type('form')
         .send(newPatientData)
         .redirects(0)
@@ -154,7 +154,7 @@ test('routes test: POST /patients/:id for new patient', function(assert) {
         })
 })
 
-test('routes test: POST /patients/:id for existing patient with required fields', function(assert) {
+test('routes test: POST /aegle/patients/:id for existing patient with required fields', function(assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
@@ -162,7 +162,7 @@ test('routes test: POST /patients/:id for existing patient with required fields'
 
     assert.plan(5)
     request(app)
-        .post(`/patients/${patientData.patientId}?_method=PUT`)
+        .post(`/aegle/patients/${patientData.patientId}?_method=PUT`)
         .type('form')
         .send(patientData)
         .redirects(0)
@@ -179,19 +179,19 @@ test('routes test: POST /patients/:id for existing patient with required fields'
         })
 })
 
-test('routes test: POST /patients/:id for existing patient with absent heart rate', function(assert) {
+test('routes test: POST /aegle/patients/:id for existing patient with absent heart rate', function(assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     request(app)
-        .post(`/patients/${dummyIds[0]}?_method=PUT`)
+        .post(`/aegle/patients/${dummyIds[0]}?_method=PUT`)
         .type('form')
         .send({ description: 'The patient name' })
         .redirects(0)
         .expect(400, assert.end)
 })
 
-test('routes test: POST /patients for creating a new patient with valid information', function (assert) {
+test('routes test: POST /aegle/patients for creating a new patient with valid information', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
@@ -199,11 +199,11 @@ test('routes test: POST /patients for creating a new patient with valid informat
 
     assert.plan(5)
     request(app)
-        .post('/patients')
+        .post('/aegle/patients')
         .type('form')
         .send(newPatientData)
         .expect(303)
-        .expect('Location', `/patients/${newPatientData.patientId}`)
+        .expect('Location', `/aegle/patients/${newPatientData.patientId}`)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
             repo.getPatient(newPatientData.patientId, (err, data) => {
@@ -216,36 +216,36 @@ test('routes test: POST /patients for creating a new patient with valid informat
         })
 })
 
-test('routes test: POST /patients for creating a new patient with absent ID', function (assert) {
+test('routes test: POST /aegle/patients for creating a new patient with absent ID', function (assert) {
     const app = appFactory(repoFactory.createRepository(), __dirname)
     const newPatientData = { heartrate: 5, description: 'The patient name' }
 
     request(app)
-        .post('/patients')
+        .post('/aegle/patients')
         .type('form')
         .send(newPatientData)
         .expect(400, assert.end)
 })
 
-test('routes test: POST /patients for creating a new patient with absent heartRate', function (assert) {
+test('routes test: POST /aegle/patients for creating a new patient with absent heartRate', function (assert) {
     const app = appFactory(repoFactory.createRepository(), __dirname)
     const newPatientData = { patientId: 'ID' }
 
     request(app)
-        .post('/patients')
+        .post('/aegle/patients')
         .type('form')
         .send(newPatientData)
         .expect(400, assert.end)
 })
 
-test('routes test: GET /patients', function (assert) {
+test('routes test: GET /aegle/patients', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(3 + dummyIds.length)
     request(app)
-        .get('/patients')
+        .get('/aegle/patients')
         .accept('application/json')
         .expect(200)
         .expect('Content-Type', /json/)

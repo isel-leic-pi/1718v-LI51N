@@ -22,14 +22,14 @@ const dummyEvents = [
     new model.Event('UnhandledError', dummyIds[0]),
 ]
 
-test('routes test: GET /status', function (assert) {
+test('routes test: GET /aegle/status', function (assert) {
 
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(3 + dummyIds.length)
     request(app)
-        .get('/status')
+        .get('/aegle/status')
         .expect(200)
         .accept('application/json')
         .expect('Content-Type', /json/)
@@ -45,7 +45,7 @@ test('routes test: GET /status', function (assert) {
         })
 })
 
-test('routes test: GET /patients/:id/events unknown :id', function (assert) {
+test('routes test: GET /aegle/patients/:id/events unknown :id', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
@@ -54,7 +54,7 @@ test('routes test: GET /patients/:id/events unknown :id', function (assert) {
 
     assert.plan(1)
     request(app)
-        .get(`/patients/${someAppId}/events`)
+        .get(`/aegle/patients/${someAppId}/events`)
         .expect(404)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
@@ -62,13 +62,13 @@ test('routes test: GET /patients/:id/events unknown :id', function (assert) {
         })
 })
 
-test('routes test: GET /patients/:id/events without query string', function (assert) {
+test('routes test: GET /aegle/patients/:id/events without query string', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
-        .get(`/patients/${dummyIds[0]}/events`)
+        .get(`/aegle/patients/${dummyIds[0]}/events`)
         .expect(400)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
@@ -76,13 +76,13 @@ test('routes test: GET /patients/:id/events without query string', function (ass
         })
 })
 
-test('routes test: GET /patients/:id/events with valid query string', function (assert) {
+test('routes test: GET /aegle/patients/:id/events with valid query string', function (assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
     assert.plan(1)
     request(app)
-        .get(`/patients/${dummyIds[0]}/events`)
+        .get(`/aegle/patients/${dummyIds[0]}/events`)
         .query({eventType: 'Heartbeat'})
         .expect(200)
         .end(function (err, res) {
@@ -92,7 +92,7 @@ test('routes test: GET /patients/:id/events with valid query string', function (
 })
 
 
-test('routes test: POST /patients/:id/events with invalid payload', function (assert) {
+test('routes test: POST /aegle/patients/:id/events with invalid payload', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
@@ -102,7 +102,7 @@ test('routes test: POST /patients/:id/events with invalid payload', function (as
 
     assert.plan(1)
     request(app)
-        .post(`/patients/${someAppId}/events`)
+        .post(`/aegle/patients/${someAppId}/events`)
         .expect(400)
         .end(function (err, res) {
             assert.error(err, 'Assert that no errors occured')
@@ -110,7 +110,7 @@ test('routes test: POST /patients/:id/events with invalid payload', function (as
         })
 })
 
-test('routes test: POST /patients/:id/events with valid payload', function (assert) {
+test('routes test: POST /aegle/patients/:id/events with valid payload', function (assert) {
     
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
@@ -120,7 +120,7 @@ test('routes test: POST /patients/:id/events with valid payload', function (asse
 
     assert.plan(5)
     request(app)
-        .post(`/patients/${someAppId}/events`)
+        .post(`/aegle/patients/${someAppId}/events`)
         .send({eventType, source: someAppId, message: 'I LIVE!'})
         .expect(200)
         .end(function (err, res) {

@@ -48,8 +48,12 @@ module.exports = exports = function(patientsRepository, express) {
             if (err) throw err
             if (!data) next()
             else {
+                
                 res.format({
-                    html: () => res.render('patient.hbs', data),
+                    html: () => res.render('patient.hbs', {
+                        actionUrl: `/aegle/patients/${data.id}?_method=PUT`,
+                        patientInfo: data 
+                    }),
                     json: () => res.json(data)
                 })
             }

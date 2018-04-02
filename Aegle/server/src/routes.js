@@ -30,6 +30,8 @@ module.exports = exports = function(patientsRepository, root) {
     app.set('view engine', 'hbs')
     app.set('views', path.join(__dirname, './views'))
     hbs.registerHelper('equals', (theOne, theOther) => theOne === theOther)
+    hbs.registerHelper('and', (theOne, theOther) => theOne && theOther)
+    hbs.registerPartials(__dirname + '/views/partials')
 
     app.use((req, res, next) => {
         const oldEnd = res.end
@@ -45,9 +47,12 @@ module.exports = exports = function(patientsRepository, root) {
     app.use(express.json())
 
     app.use(methodOverride('_method'))
-    
-    app.use('/patients', patientsRoutes(patientsRepository, express))
-    app.use('/', statusRoutes(patientsRepository, express))
 
+    app.use('/aegle/patients', patientsRoutes(patientsRepository, express))
+    app.use('/aegle', statusRoutes(patientsRepository, express))
+
+    app.get('/aegle/home', (req, res) => { res.render('home.hbs')})
+    app.get('/aegle/patient/new.hbs', (req, res) => { res.render('patientNew.hbs')})
+    
     return app
 }

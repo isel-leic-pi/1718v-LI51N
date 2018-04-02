@@ -1,0 +1,34 @@
+<form class="ui form container" method="POST" action={{action}}>
+    <h4 class="ui dividing header">Patient Information</h4>
+    <div class="fields">
+    <div class="ten wide {{#unless patient}} required {{/unless}} field">
+        <label>Identifier</label>
+        <input type="text" name="patientId" 
+            {{#if patient}} value="{{patient.id}}" readonly
+            {{else}} placeholder="a short name" {{/if}}
+        />
+    </div>
+    <div class="three wide required field">
+        <label>Heart rate</label>
+        <input type="number" name="heartRate" min="1" 
+            {{#if patient}} value="{{patient.heartRate}}"
+            {{else}} placeholder="time interval" {{/if}}
+        />
+    </div>
+    <div class="three wide field">
+        <label>Units</label>
+        <select class="ui simple dropdown" name="units" disabled>
+            <option value="seconds" selected>seconds</option>
+            <option value="minutes">minutes</option>
+            <option value="hours">hours</option>
+        </select>
+    </div>
+    </div>
+    <div class="field">
+        <label>Description</label>
+        <textarea rows="2" name="name" 
+        {{#unless (and patient patient.name)}} placeholder="a description (or a very long name =P)"
+        {{/unless}}>{{#if patient.name}}{{patient.name}}{{/if}}</textarea>
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+</form>
