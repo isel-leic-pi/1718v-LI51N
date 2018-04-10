@@ -42,7 +42,7 @@ module.exports = exports = function(patientsRepository, root) {
         next()
     })
      
-    app.use(express.static(path.join(root, 'static')))
+    app.use('/aegle', express.static(path.join(root, 'static')))
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
 
