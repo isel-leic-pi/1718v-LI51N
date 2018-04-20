@@ -67,7 +67,7 @@ test('routes test: PUT /aegle/patients/:id for new patient with application/x-ww
     const app = appFactory(repo, __dirname)
 
     const patientId = 'newPatientId'
-    const patientData = { heartRate: 5, name: 'The patient name' }
+    const patientData = { heartrate: 5, description: 'The patient name' }
 
     assert.plan(5)
     request(app)
@@ -80,8 +80,8 @@ test('routes test: PUT /aegle/patients/:id for new patient with application/x-ww
             repo.getPatient(patientId, (err, data) => {
                 assert.error(err, 'Patient info obtained')
                 assert.equal(data.id, patientId)
-                assert.equal(data.heartRate, patientData.heartRate)
-                assert.equal(data.name, patientData.name)
+                assert.equal(data.heartRate, patientData.heartrate)
+                assert.equal(data.name, patientData.description)
                 assert.end()
             })
         })
@@ -93,7 +93,7 @@ test('routes test: PUT /aegle/patients/:id for new patient with application/json
     const app = appFactory(repo, __dirname)
 
     const patientId = 'newPatientId'
-    const patientData = { heartRate: 5, name: 'The patient name' }
+    const patientData = { heartrate: 5, description: 'The patient name' }
 
     assert.plan(1)
     request(app)
@@ -112,7 +112,7 @@ test('routes test: PUT /aegle/patients/:id for existing patient', function(asser
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
-    const newPatientData = { heartRate: 5, name: 'The patient name' }
+    const newPatientData = { heartrate: 5, description: 'The patient name' }
 
     assert.plan(5)
     request(app)
@@ -125,8 +125,8 @@ test('routes test: PUT /aegle/patients/:id for existing patient', function(asser
             repo.getPatient(dummyIds[0], (err, data) => {
                 assert.error(err, 'Patient info obtained')
                 assert.equal(data.id, dummyIds[0])
-                assert.equal(data.heartRate, newPatientData.heartRate)
-                assert.equal(data.name, newPatientData.name)
+                assert.equal(data.heartRate, newPatientData.heartrate)
+                assert.equal(data.name, newPatientData.description)
                 assert.end()
             })
         })
@@ -136,7 +136,7 @@ test('routes test: POST /aegle/patients/:id for new patient', function(assert) {
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
-    const newPatientData = { patientId: 'ID', heartRate: 5, name: 'The patient name' }
+    const newPatientData = { patientId: 'ID', heartrate: 5, description: 'The patient name' }
 
     assert.plan(2)
     request(app)
@@ -158,7 +158,7 @@ test('routes test: POST /aegle/patients/:id for existing patient with required f
     const repo = repoFactory.createRepository(dummyEvents)
     const app = appFactory(repo, __dirname)
 
-    const patientData = { patientId: dummyIds[0], heartRate: 42, name: 'The patient name' }
+    const patientData = { patientId: dummyIds[0], heartrate: 42, description: 'The patient name' }
 
     assert.plan(5)
     request(app)
@@ -172,8 +172,8 @@ test('routes test: POST /aegle/patients/:id for existing patient with required f
             repo.getPatient(patientData.patientId, (err, data) => {
                 assert.ok(data, 'The patient was created')
                 assert.equal(data.id, patientData.patientId, 'The ID is correct')
-                assert.equal(data.heartRate, patientData.heartRate, 'The heartRate is correct')
-                assert.equal(data.name, patientData.name, 'The name is correct')
+                assert.equal(data.heartRate, patientData.heartrate, 'The heartRate is correct')
+                assert.equal(data.name, patientData.description, 'The name is correct')
                 assert.end()
             })
         })

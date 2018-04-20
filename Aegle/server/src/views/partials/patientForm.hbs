@@ -1,4 +1,4 @@
-<form class="ui form container" method="POST" action={{action}}>
+<form class="ui form container" method="POST" action="{{action}}">
     <h4 class="ui dividing header">Patient Information</h4>
     <div class="fields">
     <div class="ten wide {{#unless patient}} required {{/unless}} field">
@@ -10,7 +10,7 @@
     </div>
     <div class="three wide required field">
         <label>Heart rate</label>
-        <input type="number" name="heartRate" min="1" 
+        <input type="number" name="heartrate" min="1" 
             {{#if patient}} value="{{patient.heartRate}}"
             {{else}} placeholder="time interval" {{/if}}
         />
@@ -26,7 +26,7 @@
     </div>
     <div class="field">
         <label>Description</label>
-        <textarea rows="2" name="name" 
+        <textarea rows="2" name="description" 
         {{#unless (and patient patient.name)}} placeholder="a description (or a very long name =P)"
         {{/unless}}>{{#if patient.name}}{{patient.name}}{{/if}}</textarea>
     </div>

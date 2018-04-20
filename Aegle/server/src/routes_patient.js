@@ -63,11 +63,11 @@ module.exports = exports = function(patientsRepository, express) {
     router.put('/:id', (req, res, next) => {
 
         const patientInfo = req.body
-        if (!patientInfo || Number.isNaN(Number(patientInfo.heartRate)))
+        if (!patientInfo || Number.isNaN(Number(patientInfo.heartrate)))
             return res.sendStatus(400)
 
         const updatePatient = function(redirectUrl) {
-            const patient = new model.Patient(req.params.id, Number(patientInfo.heartRate), patientInfo.name)
+            const patient = new model.Patient(req.params.id, Number(patientInfo.heartrate), patientInfo.description)
             patientsRepository.updatePatient(patient, (err) => {
                 if (err) throw err
                 if (redirectUrl) res.redirect(303, `${req.originalUrl}`)
