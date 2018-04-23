@@ -3,14 +3,14 @@
     <div class="fields">
     <div class="ten wide {{#unless patient}} required {{/unless}} field">
         <label>Identifier</label>
-        <input type="text" name="patientId" 
+        <input type="text" name="patientId" required
             {{#if patient}} value="{{patient.id}}" readonly
             {{else}} placeholder="a short name" {{/if}}
         />
     </div>
     <div class="three wide required field">
         <label>Heart rate</label>
-        <input type="number" name="heartrate" min="1" 
+        <input type="number" name="heartrate" min="1" required
             {{#if patient}} value="{{patient.heartRate}}"
             {{else}} placeholder="time interval" {{/if}}
         />
