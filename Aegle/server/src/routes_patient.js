@@ -15,9 +15,10 @@ const model = require('./datatypes')
  * Creates an express.Router instance and initiates it with the set of supported routes.
  * @param {patients_repo.PatientsRepo} patientsRepository - The repository instance to be used
  * @param {express.Application} express - The express application instance
+ * @param {String} loginRoute - The endpoint of the login page
  * @return {express.Router} - The newly created instance
  */
-module.exports = exports = function(patientsRepository, express) {
+module.exports = exports = function(patientsRepository, express, loginRoute) {
     
     const router = express.Router()
 
@@ -25,7 +26,7 @@ module.exports = exports = function(patientsRepository, express) {
         patientsRepository.getPatients((err, data) => {
             if (err) throw err
             res.format({
-                html: () => res.render('patients.hbs', { patients: data }),
+                html: () => res.render('patients.hbs', { patients: data, loginRoute }),
                 json: () => res.json(data)
             })
         })
@@ -52,7 +53,8 @@ module.exports = exports = function(patientsRepository, express) {
                 res.format({
                     html: () => res.render('patient.hbs', {
                         actionUrl: `/aegle/patients/${data.id}?_method=PUT`,
-                        patientInfo: data 
+                        patientInfo: data, 
+                        loginRoute 
                     }),
                     json: () => res.json(data)
                 })

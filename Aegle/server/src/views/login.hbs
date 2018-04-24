@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {{> head}}
+  </head>
+  <body>
+    {{> menu this.menuState}}    
+
+    <div class="ui segment" style="padding: 50pt">
+      <div class="ui centered raised card">
+        <form class="ui form content" method="POST" action="{{action}}">
+          <div class="field">
+            <label>Username</label>
+            <input type="text" name="username" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" name="password" required />
+          </div>
+          <button class="positive fluid ui button" type="submit">Sign in</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

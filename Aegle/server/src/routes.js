@@ -48,11 +48,22 @@ module.exports = exports = function(patientsRepository, root) {
 
     app.use(methodOverride('_method'))
 
-    app.use('/aegle/patients', patientsRoutes(patientsRepository, express))
-    app.use('/aegle', statusRoutes(patientsRepository, express))
-
-    app.get('/aegle/home', (req, res) => { res.render('home.hbs')})
-    app.get('/aegle/patient/new.hbs', (req, res) => { res.render('patientNew.hbs')})
+    const loginRoute = '/aegle/login'
     
+    app.use('/aegle/patients', patientsRoutes(patientsRepository, express, loginRoute))
+    app.use('/aegle', statusRoutes(patientsRepository, express, loginRoute))
+
+    app.get('/aegle/home', (req, res) => { 
+        res.render('home.hbs', { menuState: { home: "active", loginRoute } } ) 
+    })
+
+    app.get('/aegle/patient/new.hbs', (req, res) => { 
+        res.render('patientNew.hbs', { menuState: { loginRoute } } )
+    })
+
+    app.get(loginRoute, (req, res) => { 
+        res.render('login.hbs', { menuState: { loginRoute }, action: loginRoute }) 
+    })
+
     return app
 }

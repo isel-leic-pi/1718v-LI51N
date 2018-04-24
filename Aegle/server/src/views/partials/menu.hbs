@@ -6,14 +6,14 @@
         <a class="item {{#if status}} active {{/if}}" href="/aegle/status"><i class="heartbeat icon"></i> Status</a>
 
         <div class="right menu">
-        {{#if loggedUser}}
+        {{#if user}}
             <a class="ui item">
-              <img class="ui spaced avatar image" src="{{loggedUser.gravatar}}" />
-              {{loggedUser.name}}
+                <img class="ui spaced avatar image" src="{{user.gravatar}}" />
+                {{user.name}}
             </a>
             <a class="ui item">Signout</a>
         {{else}}
-            <a class="ui item">Sign-in</a>
+            <a class="ui item" href="{{loginRoute}}">Sign-in</a>
         {{/if}}
         </div>
     </div>
