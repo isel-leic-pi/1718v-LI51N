@@ -1,8 +1,20 @@
 <div class="ui pointing menu">
     <div class="ui container">
-    <div class="item"><img class="ui mini image" src="/aegle/images/heart_logo.png"></div>
-    <a class="item {{#if home}} active {{/if}}" href="/aegle/home"><i class="plus icon"></i> Home</a>
-    <a class="item {{#if patients}} active {{/if}}" href="/aegle/patients"><i class="address card icon"></i> Patients</a>
-    <a class="item {{#if status}} active {{/if}}" href="/aegle/status"><i class="heartbeat icon"></i> Status</a>
+        <div class="item"><img class="ui mini image" src="/aegle/images/heart_logo.png"></div>
+        <a class="item {{#if home}} active {{/if}}" href="/aegle/home"><i class="plus icon"></i> Home</a>
+        <a class="item {{#if patients}} active {{/if}}" href="/aegle/patients"><i class="address card icon"></i> Patients</a>
+        <a class="item {{#if status}} active {{/if}}" href="/aegle/status"><i class="heartbeat icon"></i> Status</a>
+
+        <div class="right menu">
+        {{#if loggedUser}}
+            <a class="ui item">
+              <img class="ui spaced avatar image" src="{{loggedUser.gravatar}}" />
+              {{loggedUser.name}}
+            </a>
+            <a class="ui item">Signout</a>
+        {{else}}
+            <a class="ui item">Sign-in</a>
+        {{/if}}
+        </div>
     </div>
 </div>
