@@ -15,10 +15,10 @@ const model = require('./datatypes')
  * Creates an express.Router instance and initiates it with the set of supported routes.
  * @param {patients_repo.PatientsRepo} patientsRepository - The repository instance to be used
  * @param {express.Application} express - The express application instance
- * @param {String} loginRoute - The endpoint of the login page
+ * @param {login: String, logout: String} signInRoutes - The endpoints to be used for sign-in and sign out
  * @return {express.Router} - The newly created instance
  */
-module.exports = exports = function(patientsRepository, express, loginRoute) {
+module.exports = exports = function(patientsRepository, express, signInRoutes) {
 
     const router = express.Router()
 
@@ -26,7 +26,10 @@ module.exports = exports = function(patientsRepository, express, loginRoute) {
         patientsRepository.getPatientsStatus((err, data) => {
             if (err) throw err
             res.format({
-                html: () => res.render('status.hbs', { patientsStatus: data, loginRoute }),
+                html: () => res.render('status.hbs', {
+                    patientsStatus: data, 
+                    menuState: { status: 'active', signInRoutes, user: req.user } 
+                }),
                 json: () => res.json(data)
             })
         })

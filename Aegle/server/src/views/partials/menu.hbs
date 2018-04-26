@@ -11,9 +11,9 @@
                 <img class="ui spaced avatar image" src="{{user.gravatar}}" />
                 {{user.name}}
             </a>
-            <a class="ui item">Signout</a>
+            <a class="ui item" href="{{signInRoutes.logout}}">Sign out</a>
         {{else}}
-            <a class="ui item" href="{{loginRoute}}">Sign-in</a>
+            <a class="ui item" href="{{signInRoutes.login}}">Sign in</a>
         {{/if}}
         </div>
     </div>

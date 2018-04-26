@@ -15,11 +15,13 @@ main(process.argv[2])
  */
 function main(port) {
 
-    const model = require('./src/datatypes')
-
     const app = require('./src/routes')
     const repo = require('./src/patients_repo').createRepository()
+    const path = require('path')
 
-    const server = app(repo, __dirname)
+    const usersDbFile = 'users_db.json'
+    const usersRepo = require('./src/users_repo')(path.join(__dirname, usersDbFile))
+
+    const server = app(repo, usersRepo, __dirname)
     server.listen(Number(port), () => console.log(`Server is listening on port ${port}`))
 }

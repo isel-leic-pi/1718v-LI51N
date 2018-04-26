@@ -17,6 +17,9 @@
             <label>Password</label>
             <input type="password" name="password" required />
           </div>
+          {{#if this.failedAttempt}}
+            <div style="color: red; text-align: center; margin-bottom: 1em">Invalid credentials</div>
+          {{/if}}
           <button class="positive fluid ui button" type="submit">Sign in</button>
         </form>
       </div>
