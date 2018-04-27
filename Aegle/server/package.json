@@ -1,0 +1,38 @@
+{
+  "name": "aegle-server",
+  "version": "1.0.0",
+  "description": "Web application used to monitor the health of software systems",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "faucet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isel-leic-pi/1718v-LI51N.git"
+  },
+  "keywords": [
+    "Monitoring"
+  ],
+  "author": "Paulo Pereira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isel-leic-pi/1718v-LI51N/issues"
+  },
+  "homepage": "https://github.com/isel-leic-pi/1718v-LI51N#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "hbs": "^4.0.1",
+    "method-override": "^2.3.10",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1",
+    "supertest": "^3.0.0",
+    "tape": "^4.9.0"
+  }
+}

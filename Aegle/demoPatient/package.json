@@ -1,0 +1,29 @@
+{
+  "name": "demopatient",
+  "version": "1.0.0",
+  "description": "An utility that simulates a set of patients that periodically send heartbeats",
+  "main": "app.js",
+  "scripts": {
+    "test": "faucet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isel-leic-pi/1718v-LI51N.git"
+  },
+  "keywords": [
+    "Patient"
+  ],
+  "author": "Paulo Pereira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isel-leic-pi/1718v-LI51N/issues"
+  },
+  "homepage": "https://github.com/isel-leic-pi/1718v-LI51N#readme",
+  "dependencies": {
+    "request": "^2.85.0"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1",
+    "tape": "^4.9.0"
+  }
+}
