@@ -3,9 +3,8 @@
 const test = require('tape')
 const model = require('../src/datatypes')
 
-test('datatypes.Patient test: constructor function called with all parameters \
-initializes instances correctly', (assert) => {
-    
+test('datatypes.Patient test: constructor function called with all parameters initializes instances correctly',
+  (assert) => {
     const expectedId = 'The id'
     const expectedHeartRate = 30
     const expectedName = 'The name'
@@ -16,11 +15,11 @@ initializes instances correctly', (assert) => {
     assert.equal(sut.heartRate, expectedHeartRate)
     assert.equal(sut.name, expectedName)
     assert.end()
-})
+  }
+)
 
-test('datatypes.Event test: constructor function called with all parameters \
-initializes instances correctly', (assert) => {
-    
+test('datatypes.Event test: constructor function called with all parameters initializes instances correctly',
+  (assert) => {
     const expectedType = 'Heartbeat'
     const expectedSource = 'The source Id'
     const expectedMessage = 'A message'
@@ -32,11 +31,11 @@ initializes instances correctly', (assert) => {
     assert.ok(sut.timestamp, 'timestamp should not be undefined')
     assert.equal(sut.message, expectedMessage)
     assert.end()
-})
+  }
+)
 
-test('datatypes.PatientStatus test: constructor function called with all parameters \
-initializes instances correctly', (assert) => {
-    
+test('datatypes.PatientStatus test: constructor function called with all parameters initializes instances correctly',
+  (assert) => {
     const expectedPatientId = 'PatientId'
     const expectedHealthStatus = 'OK'
     const expectedPatientName = 'A name'
@@ -47,4 +46,5 @@ initializes instances correctly', (assert) => {
     assert.equal(sut.health, expectedHealthStatus)
     assert.equal(sut.patientName, expectedPatientName)
     assert.end()
-})
+  }
+)

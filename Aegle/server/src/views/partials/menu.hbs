@@ -7,10 +7,10 @@
 
         <div class="right menu">
         {{#if user}}
-            <a class="ui item">
+            <div class="ui item">
                 <img class="ui spaced avatar image" src="{{user.gravatar}}" />
                 {{user.name}}
-            </a>
+            </div>
             <a class="ui item" href="{{signInRoutes.logout}}">Sign out</a>
         {{else}}
             <a class="ui item" href="{{signInRoutes.login}}">Sign in</a>
