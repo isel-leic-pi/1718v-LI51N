@@ -20,11 +20,11 @@ module.exports.User = User
  * @classdesc Data type that represents patients to be monitored.
  * @api public
  */
-function Patient(id, heartRate, name) {
-    if (!(this instanceof Patient)) return { id, heartRate, name }
-    this.id = id
-    this.heartRate = heartRate
-    this.name = name
+function Patient (id, heartRate, name) {
+  if (!(this instanceof Patient)) return { id, heartRate, name }
+  this.id = id
+  this.heartRate = heartRate
+  this.name = name
 }
 
 /**
@@ -36,12 +36,12 @@ function Patient(id, heartRate, name) {
  * @classdesc Data type that represents events to be recorded.
  * @api public
  */
-function Event(type, source, message) {
-    if (!(this instanceof Event)) return { type, source, timestamp: new Date(), message }
-    this.type = type
-    this.source = source
-    this.timestamp = Date.now()
-    this.message = message
+function Event (type, source, message) {
+  if (!(this instanceof Event)) return { type, source, timestamp: new Date(), message }
+  this.type = type
+  this.source = source
+  this.timestamp = Date.now()
+  this.message = message
 }
 
 /**
@@ -53,11 +53,11 @@ function Event(type, source, message) {
  * @classdesc Data type that represents the status of a given patient (it's a DTO, actually).
  * @api public
  */
-function PatientStatus(patientId, health, patientName) {
-    if (!(this instanceof PatientStatus)) return { patientId, patientName, health }
-    this.patientId = patientId
-    this.patientName = patientName
-    this.health = health
+function PatientStatus (patientId, health, patientName) {
+  if (!(this instanceof PatientStatus)) return { patientId, patientName, health }
+  this.patientId = patientId
+  this.patientName = patientName
+  this.health = health
 }
 
 /**
@@ -72,11 +72,11 @@ function PatientStatus(patientId, health, patientName) {
  * @classdesc Data type that represents the user information.
  * @api public
  */
-function User(username, password, name, gravatar, email) {
-    if (!(this instanceof User)) return { username, password, name, gravatar, email }
-    this.username = username
-    this.password = password
-    this.name = name
-    this.gravatar = gravatar
-    this.email = email
+function User (username, password, name, gravatar, email) {
+  if (!(this instanceof User)) return { username, password, name, gravatar, email }
+  this.username = username
+  this.password = password
+  this.name = name
+  this.gravatar = gravatar
+  this.email = email
 }
