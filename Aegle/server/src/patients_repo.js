@@ -83,23 +83,23 @@ function createRepository (events) {
   return {
 
     /**
-         * Exposed for testing purposes only
-         */
+     * Exposed for testing purposes only
+     */
     __patients__: patients,
 
     /**
-         * Registers the given event.
-         * @param   {Event} event - The event to be registered.
-         * @param   {writeCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Registers the given event.
+     * @param   {Event} event - The event to be registered.
+     * @param   {writeCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     registerEvent: (event, cb) => { addEvent(event); cb() },
 
     /**
-         * Gets the list of known patient's.
-         * @param   {readCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Gets the list of known patient's.
+     * @param   {readCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     getPatients: (cb) => {
       const patientsData = Array.from(patients.keys()).map(
         (patientId) => patients.get(patientId).patientData
@@ -108,23 +108,23 @@ function createRepository (events) {
     },
 
     /**
-         * Gets the patient with the given identifier. Calls the read callback with the patient
-         * instance or undefined, if the client was not found.
-         * @param   {string} patientId - The patient identifier.
-         * @param   {readCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Gets the patient with the given identifier. Calls the read callback with the patient
+     * instance or undefined, if the client was not found.
+     * @param   {string} patientId - The patient identifier.
+     * @param   {readCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     getPatient: (patientId, cb) => {
       const patient = patients.get(patientId)
       cb(null, patient ? patient.patientData : patient)
     },
 
     /**
-         * Updates the given patient information.
-         * @param   {Patient} patient - The patient information to be updated.
-         * @param   {writeCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Updates the given patient information.
+     * @param   {Patient} patient - The patient information to be updated.
+     * @param   {writeCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     updatePatient: (patient, cb) => {
       let existingPatient = patients.get(patient.id)
       if (!existingPatient) {
@@ -143,30 +143,30 @@ function createRepository (events) {
     },
 
     /**
-         * Gets the list of known patient's status.
-         * @param   {readCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Gets the list of known patient's status.
+     * @param   {readCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     getPatientsStatus: (cb) => {
       const patientsStatus = Array.from(patients.keys()).map((patientId) => getStatus(patientId))
       cb(null, patientsStatus)
     },
 
     /**
-         * Gets the patient's status.
-         * @param   {string} patientId - The patient identifier.
-         * @param   {readCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Gets the patient's status.
+     * @param   {string} patientId - The patient identifier.
+     * @param   {readCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     getPatientStatus: (patientId, cb) => cb(null, getStatus(patientId)),
 
     /**
-         * Gets the events of the given type that where registered by the given patient.
-         * @param   {string} patientId - The patient identifier.
-         * @param   {string} eventType - The event type.
-         * @param   {readCallback} cb - Completion callback.
-         * @memberof PatientsRepo#
-         */
+     * Gets the events of the given type that where registered by the given patient.
+     * @param   {string} patientId - The patient identifier.
+     * @param   {string} eventType - The event type.
+     * @param   {readCallback} cb - Completion callback.
+     * @memberof PatientsRepo#
+     */
     getPatientEvents: (patientId, eventType, cb) => {
       const patient = patients.get(patientId)
       if (!patient || !patient.events.get(eventType)) { return cb(null, []) }
