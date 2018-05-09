@@ -2,8 +2,20 @@
 <html lang="en">
   <head>
     {{> head}}
+    <script src="/aegle/scripts/alerts.js"></script>
+    <script>
+      function init() {
+        const xhr = new XMLHttpRequest()
+        const url = '/aegle/alerts'
+        const alertDivider = document.getElementById('alertDivider')
+        const cardContainer = document.getElementById('cardContainer')
+
+        fetchAlerts(xhr, url, alertDivider, cardContainer)
+        setInterval(()=> { fetchAlerts(xhr, url, alertDivider, cardContainer) }, 10000)
+      }
+    </script>
   </head>
-  <body>
+  <body onload="init()">
     {{> menu this.menuState }}    
 
     <div class="ui segment">
@@ -17,9 +29,12 @@
           <a class="ui mini basic spaced label"> by Paulo Pereira</a>
         </div>
       </div>
-      <h4 class="ui horizontal divider header">
+      <h4 class="ui horizontal divider header" id="alertDivider" style="display: none">
           <i class="ambulance icon"></i> Alerts
       </h4>
+      <div class="ui container middle">
+        <div class="ui four column grid" id="cardContainer"></div>
+      </div>
     </div>
   </body>
 </html>
