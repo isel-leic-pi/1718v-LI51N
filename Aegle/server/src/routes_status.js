@@ -34,6 +34,18 @@ module.exports = exports = function (patientsRepository, express, signInRoutes) 
     })
   })
 
+  router.get('/alerts', (req, res) => {
+    patientsRepository.getPatientsStatus((err, data) => {
+      if (err) throw err
+
+      const alerts = data
+        .filter((it) => it.health === 'DEAD')
+        .map((it) => new model.Alert('Flatline', it.patientId))
+
+      res.json(alerts)
+    })
+  })
+
   router.get('/patients/:id/events', (req, res, next) => {
     patientsRepository.getPatient(req.params.id, (err, data) => {
       if (err) throw err
