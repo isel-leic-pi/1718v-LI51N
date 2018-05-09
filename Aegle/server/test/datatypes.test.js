@@ -48,3 +48,38 @@ test('datatypes.PatientStatus test: constructor function called with all paramet
     assert.end()
   }
 )
+
+test('datatypes.User test: constructor function called with all parameters initializes instances correctly',
+  (assert) => {
+    const expectedUsername = 'testUser'
+    const expectedPassword = 'testPwd'
+    const expectedName = 'The user name'
+    const expectedGravatar = 'http://gravatar.com/thegravatar/link'
+    const expectedEmail = 'the.user@test.mail.com'
+
+    const sut = new model.User(expectedUsername, expectedPassword, expectedName, expectedGravatar, expectedEmail)
+
+    assert.equal(sut.username, expectedUsername)
+    assert.equal(sut.password, expectedPassword)
+    assert.equal(sut.name, expectedName)
+    assert.equal(sut.gravatar, expectedGravatar)
+    assert.equal(sut.email, expectedEmail)
+    assert.end()
+  }
+)
+
+test('datatypes.Alert test: constructor function called with all parameters initializes instances correctly',
+  (assert) => {
+    const expectedType = 'Flatline'
+    const expectedPatientId = 'The Patient Id'
+    const expectedMessage = 'A message'
+
+    const sut = new model.Alert(expectedType, expectedPatientId, expectedMessage)
+
+    assert.equal(sut.type, expectedType)
+    assert.equal(sut.patientId, expectedPatientId)
+    assert.ok(sut.timestamp, 'timestamp should not be undefined')
+    assert.equal(sut.message, expectedMessage)
+    assert.end()
+  }
+)

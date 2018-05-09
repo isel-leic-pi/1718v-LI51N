@@ -4,6 +4,7 @@ module.exports.Patient = Patient
 module.exports.Event = Event
 module.exports.PatientStatus = PatientStatus
 module.exports.User = User
+module.exports.Alert = Alert
 
 /**
  * Module that contains the specification of the existing data types.
@@ -64,8 +65,7 @@ function PatientStatus (patientId, health, patientName) {
  * Constructor function that initializes a new User instance with the given arguments.
  * @param    {string} username - The user identifier.
  * @param    {string} password - The user password. (TODO: This is wrong)
- * @param    {string} name - The user name
- * @param    {string} name - The user name
+ * @param    {string} name - The user name.
  * @param    {string} gravatar - The link for the user's gravatar image.
  * @param    {string} email - The user's email.
  * @class
@@ -79,4 +79,22 @@ function User (username, password, name, gravatar, email) {
   this.name = name
   this.gravatar = gravatar
   this.email = email
+}
+
+/**
+ * Constructor function that initializes a new Alert instance with the given arguments. Alert generation is,
+ * for now, automatically generated  heart beats are no longer received (alerts of type Flatline).
+ * @param    {string} type - The alert type (e.g. 'Flatline').
+ * @param    {string} patientId - The identifier of the patient to which the alert is pertaining.
+ * @param    {string?} message - An optional text message.
+ * @class
+ * @classdesc Data type that represents alerts.
+ * @api public
+ */
+function Alert (type, patientId, message) {
+  if (!(this instanceof Alert)) return { type, patientId, timestamp: new Date(), message }
+  this.type = type
+  this.patientId = patientId
+  this.timestamp = Date.now()
+  this.message = message
 }
