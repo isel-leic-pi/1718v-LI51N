@@ -2,8 +2,15 @@
 <html lang="en">
   <head>
     {{> head}}
+    <script type="text/javascript">
+      function setupReload() {
+        setInterval(() => {
+          window.location.reload(true)
+        }, 30000)
+      }
+    </script>
   </head>
-  <body>
+  <body onload="setupReload()">
     {{> menu this.menuState}}    
     
     <div class="ui segment">
