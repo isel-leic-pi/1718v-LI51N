@@ -5,13 +5,11 @@
     <script src="/aegle/scripts/alerts.js"></script>
     <script>
       function init() {
-        const xhr = new XMLHttpRequest()
         const url = '/aegle/alerts'
-        const alertDivider = document.getElementById('alertDivider')
-        const cardContainer = document.getElementById('cardContainer')
-
-        fetchAlerts(xhr, url, alertDivider, cardContainer)
-        setInterval(()=> { fetchAlerts(xhr, url, alertDivider, cardContainer) }, 10000)
+        const alertDivider = $('#alertDivider')
+        const cardContainer = $('#cardContainer')
+        fetchAlerts(url, alertDivider, cardContainer)
+        setInterval(()=> { fetchAlerts(url, alertDivider, cardContainer) }, 10000)
       }
     </script>
   </head>
